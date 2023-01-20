@@ -1,0 +1,46 @@
+.img-container img {
+  width: 200px;
+  height: auto; /*to preserve the aspect ratio of the image*/
+  border-radius: 20px;
+}
+.img-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  -moz-box-shadow: 6px 6px 12px #888;
+  -webkit-box-shadow: 6px 6px 12px #888;
+  box-shadow: 6px 6px 12px #888;
+  border-radius: 20px;
+}
+.img-container:hover {
+  outline: 5px solid red;
+  outline-offset: -5px;
+}
+
+#img_anchor {
+  background-color: rgba(120, 120, 120,0.5);
+  border-radius: 5px;
+
+}
+#img_anchor:hover {
+  background-color: rgba(120, 120, 120, 0.8);
+  outline: 1px solid grey
+}
+.noaction {
+  pointer-events: none;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 60%;
+}
+.colu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

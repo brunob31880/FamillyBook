@@ -1,0 +1,9 @@
+.flexbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items:center;
+    background-color: gainsboro;
+    border-bottom: 2px solid black;
+    padding:10px 10px 10px 10px;
+  }

@@ -1,0 +1,25 @@
+.container-richtext {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.code {
+  background-color: black;
+}
+.slate-editor {
+  height: 94vh;
+  overflow-y: scroll;
+}
+.controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: gainsboro;
+  padding: 10px 10px 10px 10px;
+  height: 6vh;
+}
+.frame-container {
+  height: 100vh;
+  width: 100%;
+}
