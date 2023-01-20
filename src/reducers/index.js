@@ -5,11 +5,12 @@ import link from './link';
 import richtext from './richtext';
 import category from './category';
 import book from './book';
+import theme from './theme';
 /**
  * 
  */
 const rootReducer=combineReducers(
    {
-    user,link,richtext,category,book
+    user,link,richtext,category,book,theme
    })
 export default rootReducer;

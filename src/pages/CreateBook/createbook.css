@@ -1,0 +1,71 @@
+.m-login-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 30px 60px;
+    box-shadow: 4px 7px 1px 0px rgba(0, 0, 0, 0.2);
+    width: 400px;
+  }
+  .m-login-form span {
+    margin-top: 25px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  
+  .m-login-form .show-error {
+    opacity: 1;
+    margin-top: 10px;
+  }
+  .m-login-form h3 {
+    font-weight: 800;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    color: #494949;
+  }
+  .m-login-form input[type="text"],
+  .m-login-form input[type="password"] {
+    display: block;
+    border: none;
+    border-bottom: 2px solid rgba(173, 173, 173, 0.4);
+    padding: 5px 0;
+    color: #494949;
+    width: 100%;
+  }
+  .m-login-form input[type="submit"] {
+    border: none;
+    background-color: #58dd77;
+    color: #fff;
+    padding: 10px 20px;
+    margin-top: 25px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+  .link_controls {
+    display: flex;
+    justify-content: space-between;
+  }
+  .link_title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .vignette-view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+  }
+  .link_title > h3 {
+    display: flex;
+    justify-content: center;
+    color: transparent;
+    background: #666666;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    text-shadow: 0px 3px 3px rgba(255, 255, 255, 0.5);
+  }
+  

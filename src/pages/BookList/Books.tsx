@@ -35,7 +35,7 @@ export const ConnectedBooks = ({
       setCategoryList(JSON.parse(JSON.stringify(rep)));
     });
 
-    Parse.Cloud.run("fetch_imdb", { isbn_number: "0735619670" }).then(
+    Parse.Cloud.run("fetch_isbn", { isbn_number: "0735619670" }).then(
       function (result) {
         console.log("resultat " , result);
         const {imageLinks}=result;
@@ -240,6 +240,7 @@ const mapDispatchToProps = (dispatch: any) => {
     setUser: (user: any) => dispatch(setUser(user)),
     setCategoryList: (category: any) => dispatch(setCategoryList(category)),
     setBookList: (books: any) => dispatch(setBookList(books)),
+   
   };
 };
 

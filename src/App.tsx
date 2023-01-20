@@ -1,4 +1,5 @@
 import LoginForm from "./pages/Login/LoginForm";
+import CreateBook from "./pages/CreateBook/CreateBook";
 import CreateLink from "./pages/CreateLink/CreateLink";
 import CreateRichText from "./pages/CreateRichText/CreateRichText";
 import CreateLinkCategory from "./pages/CreateLinkCategory/CreateLinkCategory";
@@ -19,6 +20,8 @@ import WrapperCreateRichText from "./pages/CreateRichText/WrapperCreateRichText"
 import WrapperCreateLink from "./pages/CreateLink/WrapperCreateLink";
 import { isConnected } from "./utility/UserUtils";
 import { b4config } from "./datas/b4appconfig";
+import { ParseClasse } from "./utility/ParseUtils";
+import { setThemeList } from "./actions/theme";
 import { useRef } from "react";
 import {
   GetConnection,
@@ -34,7 +37,7 @@ import "./App.css";
  * @returns
  */
 const ConnectedApp = (props: any) => {
-  const { user, category } = props;
+  const { user, category, theme } = props;
   const bgCompteur = useRef(1);
   useEffect(() => {
     // Initialisation connection Parse
@@ -48,8 +51,12 @@ const ConnectedApp = (props: any) => {
   }, [user]);
 
   useEffect(() => {
+    ParseClasse("Theme", (theme: any) => {
+      console.log("Theme list");
+      props.setThemeList(JSON.parse(JSON.stringify(theme)));
+    });
     //create a repetitive timer to change background image
-    
+    /*
     const interval = setInterval(() => {
       bgCompteur.current = bgCompteur.current + 1;
       if (bgCompteur.current > 4) bgCompteur.current = 1;
@@ -57,8 +64,24 @@ const ConnectedApp = (props: any) => {
       document.querySelector("body").style.backgroundImage =
         "url('./assets/library-" + bgCompteur.current + ".png')";
     }, 5000);
-    
+    */
   }, []);
+
+  useEffect(() => {
+    if (user && theme && theme[bgCompteur.current]) {
+      //create a repetitive timer to change background image
+      console.log("Theme ", theme[bgCompteur.current]);
+      const interval = setInterval(() => {
+        console.log("Theme ", theme[bgCompteur.current]);
+        bgCompteur.current = bgCompteur.current + 1;
+        if (bgCompteur.current > 4) bgCompteur.current = 1;
+        let url = theme[bgCompteur.current].background.url;
+        document.querySelector("body").style.backgroundImage =
+          "url('" + url + "')";
+      }, 15000);
+    }
+  }, [theme, user]);
+
   /**
    *
    * @param username
@@ -112,7 +135,7 @@ const ConnectedApp = (props: any) => {
    */
   const handlerCreateRichText = (
     titre: string,
-    categorySelected:string,
+    categorySelected: string,
     content: any,
     b64,
     onDone: any
@@ -127,22 +150,22 @@ const ConnectedApp = (props: any) => {
     //  parsefile.save().then(
     //    function () {
     //      console.log("ParseFile created");
-          CreateClasse(
-            "RichText",
-            {
-              name: titre,
-              category: categorySelected,
-              content: content,
-              vignette: parsefile,
-              userId: user.objectId,
-            },
-            (c: any) => onDone(c),
-            (err: any) => console.log(err)
-          );
-      //  },
-      //  function (error) {}
-      //);
-   // }
+    CreateClasse(
+      "RichText",
+      {
+        name: titre,
+        category: categorySelected,
+        content: content,
+        vignette: parsefile,
+        userId: user.objectId,
+      },
+      (c: any) => onDone(c),
+      (err: any) => console.log(err)
+    );
+    //  },
+    //  function (error) {}
+    //);
+    // }
   };
 
   /**
@@ -150,14 +173,14 @@ const ConnectedApp = (props: any) => {
    * @param name
    * @param onDone
    */
-  const handlerCreateRichTextCategory = (name: any,icon:any, onDone) => {
+  const handlerCreateRichTextCategory = (name: any, icon: any, onDone) => {
     let obj = category.filter((object: any) => object.name === "RichText")[0];
     let cpObj = JSON.parse(JSON.stringify(obj));
     let tmp = [].concat(obj.list);
-    let object={
-      name:name,
-      icon:icon
-    }
+    let object = {
+      name: name,
+      icon: icon,
+    };
     tmp.push(object);
     cpObj.list = tmp;
 
@@ -175,14 +198,14 @@ const ConnectedApp = (props: any) => {
    * @param name
    * @param onDone
    */
-  const handlerLinkTextCategory = (name: any,icon:any, onDone) => {
+  const handlerLinkTextCategory = (name: any, icon: any, onDone) => {
     let obj = category.filter((object: any) => object.name === "Links")[0];
     let cpObj = JSON.parse(JSON.stringify(obj));
     let tmp = [].concat(obj.list);
-    let object={
-      name:name,
-      icon:icon
-    }
+    let object = {
+      name: name,
+      icon: icon,
+    };
     tmp.push(object);
     cpObj.list = tmp;
 
@@ -249,12 +272,12 @@ const ConnectedApp = (props: any) => {
   const handlerModRichText = (
     id: string,
     titre: string,
-    categorySelected:string,
+    categorySelected: string,
     content: any,
     b64,
     onDone: any
   ) => {
-    console.log("Selected category ",categorySelected);
+    console.log("Selected category ", categorySelected);
     let parsefile;
     if (b64 !== null) {
       console.log("Building parse file with " + JSON.stringify(b64));
@@ -262,24 +285,24 @@ const ConnectedApp = (props: any) => {
       let fileName = "picture_" + now.toDateString() + ".png";
       parsefile = new Parse.File(fileName, { base64: b64 });
     }
-     // parsefile.save().then(
-     //   function () {
+    // parsefile.save().then(
+    //   function () {
     //      console.log("ParseFile created");
-          console.log("Titre =" + titre);
-          ModifyElementInClasseWithId(
-            "RichText",
-            id,
-            {
-              name: titre,
-              category: categorySelected,
-              content: content,
-              vignette: parsefile,
-              userId: user.objectId,
-            },
-            (c: any) => onDone(c),
-            (err: any) => console.log(err),
-            (e: String) => console.log("error " + e)
-          );
+    console.log("Titre =" + titre);
+    ModifyElementInClasseWithId(
+      "RichText",
+      id,
+      {
+        name: titre,
+        category: categorySelected,
+        content: content,
+        vignette: parsefile,
+        userId: user.objectId,
+      },
+      (c: any) => onDone(c),
+      (err: any) => console.log(err),
+      (e: String) => console.log("error " + e)
+    );
     //    },
     //    function (error) {}
     //  );
@@ -312,13 +335,10 @@ const ConnectedApp = (props: any) => {
       (e: any) => console.log("error " + e)
     );
   };
-<<<<<<< HEAD
 
   const handlerCreateBook = () => {
     console.log("Create Book");
   };
-=======
->>>>>>> parent of 72660ff (Gestion de bibliotheques changement de la gestion des documents)
   /**
    *
    */
@@ -329,16 +349,10 @@ const ConnectedApp = (props: any) => {
         path="/ProtoBook"
         element={<LoginForm onSubmit={handlerSubmit} />}
       />
-<<<<<<< HEAD
       <Route path="/ProtoBook/books/searchbook" element={<Books />} />
       <Route
         path="/ProtoBook/create_book"
         element={<CreateBook onCreateBook={handlerCreateBook} />}
-=======
-       <Route
-        path="/ProtoBook/books/searchbook"
-        element={<Books onDeleteType={handleDeleteType} />}
->>>>>>> parent of 72660ff (Gestion de bibliotheques changement de la gestion des documents)
       />
       <Route
         path="/ProtoBook/home"
@@ -412,6 +426,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     startTimer: () => dispatch(startTimer()),
     setUser: (user: any) => dispatch(setUser(user)),
+    setThemeList: (themeList: any) => dispatch(setThemeList(themeList)),
   };
 };
 /**
@@ -423,6 +438,7 @@ const mapStateToProps = (state: any) => {
   return {
     user: state.user.user,
     category: state.category.category,
+    theme: state.theme.theme,
   };
 };
 

@@ -31,10 +31,11 @@ const ConnectedHeader = (props: any) => {
     "4": { link: "leave", icon: "directions_run", road: "leave" },
   };
   const panelBook = {
-    "1": { link: "links", icon: "insert_link", road: "links" },
-    "2": { link: "Documents", icon: "text_fields", road: "richtext" },
-    "3": { link: "Home", icon: "home", road: "home" },
-    "4": { link: "leave", icon: "directions_run", road: "leave" },
+    "1": { link: "create", icon: "add", road: "create_book" },
+    "2": { link: "links", icon: "insert_link", road: "links" },
+    "3": { link: "Documents", icon: "text_fields", road: "richtext" },
+    "4": { link: "Home", icon: "home", road: "home" },
+    "5": { link: "leave", icon: "directions_run", road: "leave" },
   };
 
   const isRoot = () => user && user.privilege === "root";
