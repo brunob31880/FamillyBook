@@ -22,6 +22,7 @@ import { isConnected } from "./utility/UserUtils";
 import { b4config } from "./datas/b4appconfig";
 import { ParseClasse } from "./utility/ParseUtils";
 import { setThemeList } from "./actions/theme";
+import { setDocumentDimension } from "./actions/dimension";
 import { useRef } from "react";
 import {
   GetConnection,
@@ -81,6 +82,16 @@ const ConnectedApp = (props: any) => {
       }, 15000);
     }
   }, [theme, user]);
+
+  //create a useEffect that get the document width and height and set it in the redux store
+  useEffect(() => {
+    const handleResize = () => {
+      props.setDocumentDimension({width:document.documentElement.clientWidth, height:document.documentElement.clientHeight});
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   /**
    *
@@ -427,6 +438,8 @@ const mapDispatchToProps = (dispatch: any) => {
     startTimer: () => dispatch(startTimer()),
     setUser: (user: any) => dispatch(setUser(user)),
     setThemeList: (themeList: any) => dispatch(setThemeList(themeList)),
+    setDocumentDimension: (dimension: any) =>dispatch(setDocumentDimension(dimension)),
+
   };
 };
 /**

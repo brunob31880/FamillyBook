@@ -19,7 +19,7 @@ import "./links.css";
  * @returns
  */
 const ConnectedLinks = (props: any) => {
-  const { category, user, link } = props;
+  const { category, user, link,dimension } = props;
   let initialPopup: HTMLDivElement = null;
   let initialEdit: Element = null;
   let initialDel: Element = null;
@@ -93,7 +93,7 @@ const ConnectedLinks = (props: any) => {
         >
           {" "}
           {getIcon(object) &&  <i style={{marginRight:"5px",lineHeight:"27px",height:"27px"}} className={"fas "+convertCamelCaseStringToHyphenatedString(getIcon(object))}/>}
-          {truncateString(getName(object),8)}{" "}     
+          {dimension.width>400 &&  truncateString(getName(object),8) }     
         </Button>
       );
     });
@@ -239,6 +239,7 @@ const mapStateToProps = (state: any) => {
     user: state.user.user,
     link: state.link.link,
     category: state.category.category,
+    dimension: state.dimension.dimension,
   };
 };
 

@@ -9,10 +9,10 @@ import "./Header.css";
  * @returns
  */
 const ConnectedHeader = (props: any) => {
-  const { user, action } = props;
+  const { user, action,dimension } = props;
   const panelLink = {
     "1": { link: "create", icon: "add", road: "create_link" },
-    "2": { link: "Documents", icon: "library_books", road: "richtext" },
+    "2": { link: "Docs", icon: "library_books", road: "richtext" },
     "3": { link: "Home", icon: "home", road: "home" },
     "4": { link: "Book", icon: "library_books", road: "books" },
     "5": { link: "leave", icon: "directions_run", road: "leave" },
@@ -26,21 +26,23 @@ const ConnectedHeader = (props: any) => {
   };
   const panelHome = {
     "1": { link: "links", icon: "insert_link", road: "links" },
-    "2": { link: "Documents", icon: "text_fields", road: "richtext" },
+    "2": { link: "Docs", icon: "text_fields", road: "richtext" },
     "3": { link: "Book", icon: "library_books", road: "books" },
     "4": { link: "leave", icon: "directions_run", road: "leave" },
   };
   const panelBook = {
     "1": { link: "create", icon: "add", road: "create_book" },
     "2": { link: "links", icon: "insert_link", road: "links" },
-    "3": { link: "Documents", icon: "text_fields", road: "richtext" },
+    "3": { link: "Docs", icon: "text_fields", road: "richtext" },
     "4": { link: "Home", icon: "home", road: "home" },
     "5": { link: "leave", icon: "directions_run", road: "leave" },
   };
 
   const isRoot = () => user && user.privilege === "root";
 
- // console.log("Location " + JSON.stringify(location));
+  const btnStyle=()=> (dimension.width>400) ? "btn" : "btn-small"
+
+  // console.log("Location " + JSON.stringify(location));
   /**
    *
    * @param page
@@ -64,7 +66,7 @@ const ConnectedHeader = (props: any) => {
     return Object.entries(tab).map(([key, but]) => (
       <Button
         key={key}
-        className={isRoot() ? "btn" : "btn disabled"}
+        className={isRoot() ? btnStyle() : "btn disabled"}
         node="button"
         style={{
           marginRight: "5px",
@@ -104,6 +106,7 @@ const mapDispatchToProps = (dispatch: any) => {
 const mapStateToProps = (state: any) => {
   return {
     user: state.user.user,
+    dimension: state.dimension.dimension
   };
 };
 

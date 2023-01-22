@@ -86,6 +86,10 @@
 
 - Gestion de bibliothèque
 
+## 21 janvier 2023
+
+- Passage à Parcel 
+
 ## TODO
 
 - Page Lien personnalisée la page peut etre arrangée à sa façon
@@ -114,3 +118,4 @@
 - https://help.back4app.com/hc/en-us/articles/360002038772-How-to-install-an-NPM-module-at-Back4App-
 - https://rapidapi.com/blog/news-app-react/
 - https://www.digitalocean.com/community/tutorials/how-to-use-font-awesome-5-with-react
+- https://openclassrooms.com/fr/courses/1603881-creez-votre-site-web-avec-html5-et-css3/8061510-utilisez-le-responsive-design-avec-les-media-queries

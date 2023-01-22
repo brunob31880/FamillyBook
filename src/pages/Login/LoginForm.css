@@ -7,7 +7,7 @@
     background-color: #fff;
     padding: 30px 40px;
     box-shadow: 4px 7px 1px 0px rgba(0, 0, 0, 0.2);
-    width: 450px;
+    width: 25rem;
   }
   .m-login-form-proto span {
     color: red;
@@ -35,7 +35,6 @@
     border-bottom: 2px solid rgba(173, 173, 173, 0.4);
     padding: 5px 0;
     color: #494949;
-    width: 100%;
   }
   .m-login-form-proto input[type=submit] {
     border: none;
