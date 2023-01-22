@@ -71,9 +71,9 @@ const ConnectedApp = (props: any) => {
   useEffect(() => {
     if (user && theme && theme[bgCompteur.current]) {
       //create a repetitive timer to change background image
-      console.log("Theme ", theme[bgCompteur.current]);
+      // console.log("Theme ", theme[bgCompteur.current]);
       const interval = setInterval(() => {
-        console.log("Theme ", theme[bgCompteur.current]);
+        //  console.log("Theme ", theme[bgCompteur.current]);
         bgCompteur.current = bgCompteur.current + 1;
         if (bgCompteur.current > 4) bgCompteur.current = 1;
         let url = theme[bgCompteur.current].background.url;
@@ -86,7 +86,7 @@ const ConnectedApp = (props: any) => {
   //create a useEffect that get the document width and height and set it in the redux store
   useEffect(() => {
     const handleResize = () => {
-      props.setDocumentDimension({width:document.documentElement.clientWidth, height:document.documentElement.clientHeight});
+      props.setDocumentDimension({ width: document.documentElement.clientWidth, height: document.documentElement.clientHeight });
     };
     window.addEventListener("resize", handleResize);
     handleResize();
@@ -438,7 +438,7 @@ const mapDispatchToProps = (dispatch: any) => {
     startTimer: () => dispatch(startTimer()),
     setUser: (user: any) => dispatch(setUser(user)),
     setThemeList: (themeList: any) => dispatch(setThemeList(themeList)),
-    setDocumentDimension: (dimension: any) =>dispatch(setDocumentDimension(dimension)),
+    setDocumentDimension: (dimension: any) => dispatch(setDocumentDimension(dimension)),
 
   };
 };

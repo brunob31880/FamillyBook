@@ -6,6 +6,9 @@ import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button, Icon, TextInput } from "react-materialize";
 import { isConnected } from "../../utility/UserUtils";
+import { AudioRecorder } from 'react-audio-voice-recorder';
+import {RecordView} from "../../components/MediaRecorder/RecordView";
+import {isMobileDevice} from "../../utility/DeviceUtils";
 import "./createbook.css";
 import { getName } from "../../utility/CategoryListUtils";
 import Parse from "parse/dist/parse.min.js"; //Import parse
@@ -14,8 +17,9 @@ import Parse from "parse/dist/parse.min.js"; //Import parse
  * @returns
  */
 const ConnectedCreateBook = (props: any) => {
-  const { user, link, category, value } = props;
+  const { user, link, category, value, dimension } = props;
   const [saving, setSaving] = useState(false);
+
   let { id } = useParams();
 
   const [state, setState] = useState({
@@ -97,7 +101,14 @@ const ConnectedCreateBook = (props: any) => {
       props.onModBook(value.objectId, state.isbn, onDone);
     else props.onCreateProto(state.isbn, onDone);
   };
-
+  /**
+   * 
+   * @param event 
+   */
+  const handleSound = (event: SyntheticEvent) => {
+    event.preventDefault();
+    console.log("Save sound")
+  }
   /**
    *
    * @returns
@@ -125,6 +136,19 @@ const ConnectedCreateBook = (props: any) => {
     else return <Icon left>save</Icon>;
   };
   /**
+   * 
+   * @param blob 
+   */
+  const addAudioElement = (blob) => {
+    const url = URL.createObjectURL(blob);
+    console.log("Audio URL: ", url);
+    const audio = document.createElement("audio");
+    audio.src = url;
+    audio.controls = true;
+    document.body.appendChild(audio);
+  };
+ 
+  /**
    *
    */
   return (
@@ -150,8 +174,8 @@ const ConnectedCreateBook = (props: any) => {
       </div>
 
       {getVignette()}
-
-      <div className="link_controls" style={{marginTop:"10px"}}>
+      {isMobileDevice(dimension) && <AudioRecorder onRecordingComplete={addAudioElement} />}
+      <div className="link_controls" style={{ marginTop: "10px" }}>
         <Button
           className="btn"
           node="button"
@@ -164,6 +188,7 @@ const ConnectedCreateBook = (props: any) => {
           Cancel
           <Icon left>cancel</Icon>
         </Button>
+        
         <Button
           className="btn"
           node="button"
@@ -201,6 +226,7 @@ const mapStateToProps = (state: any) => {
     user: state.user.user,
     link: state.link.link,
     category: state.category.category,
+    dimension: state.dimension.dimension,
   };
 };
 

@@ -81,7 +81,7 @@ const ConnectedLinks = (props: any) => {
     let obj = category.filter((object: any) => object.name === "Links")[0];
     let catLinks: any = obj ? obj.list : [];
 
-    console.log("CatLinks=" + JSON.stringify(catLinks));
+   // console.log("CatLinks=" + JSON.stringify(catLinks));
     catLinks.forEach((object) => {
       tmp.push(
         <Button
