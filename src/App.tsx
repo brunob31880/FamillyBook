@@ -1,5 +1,6 @@
 import LoginForm from "./pages/Login/LoginForm";
 import CreateBook from "./pages/CreateBook/CreateBook";
+import CreateVideo from "./pages/CreateVideo/CreateVideo";
 import CreateLink from "./pages/CreateLink/CreateLink";
 import CreateRichText from "./pages/CreateRichText/CreateRichText";
 import CreateLinkCategory from "./pages/CreateLinkCategory/CreateLinkCategory";
@@ -7,6 +8,7 @@ import CreateRichTextCategory from "./pages/CreateRichTextCategory/CreateRichTex
 import Home from "./pages/Home/Home";
 import Links from "./pages/LinkList/Links";
 import Books from "./pages/BookList/Books";
+import Videos from "./pages/VideoList/Videos";
 import RichTexts from "./pages/RichTextList/RichText";
 import { NoMatch } from "./pages/NoMatch";
 import { Routes, Route } from "react-router-dom";
@@ -347,6 +349,9 @@ const ConnectedApp = (props: any) => {
     );
   };
 
+  const handlerCreateVideo=()=>{
+    console.log("Create Video");
+  }
   const handlerCreateBook = () => {
     console.log("Create Book");
   };
@@ -364,6 +369,10 @@ const ConnectedApp = (props: any) => {
       <Route
         path="/ProtoBook/create_book"
         element={<CreateBook onCreateBook={handlerCreateBook} />}
+      />
+       <Route
+        path="/ProtoBook/create_video"
+        element={<CreateVideo onCreateBook={handlerCreateVideo} />}
       />
       <Route
         path="/ProtoBook/home"
@@ -388,6 +397,10 @@ const ConnectedApp = (props: any) => {
       <Route
         path="/ProtoBook/books"
         element={<Books onDeleteType={handleDeleteType} />}
+      />
+       <Route
+        path="/ProtoBook/videos"
+        element={<Videos onDeleteType={handleDeleteType} />}
       />
       <Route
         path="/ProtoBook/richtext"

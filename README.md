@@ -90,6 +90,10 @@
 
 - Passage à Parcel 
 
+## 29 Janvier
+
+- Idée de conversion de vidéo soir vers du MP4 a basse qualité soit vers du MP3.
+
 ## TODO
 
 - Page Lien personnalisée la page peut etre arrangée à sa façon
@@ -119,3 +123,6 @@
 - https://rapidapi.com/blog/news-app-react/
 - https://www.digitalocean.com/community/tutorials/how-to-use-font-awesome-5-with-react
 - https://openclassrooms.com/fr/courses/1603881-creez-votre-site-web-avec-html5-et-css3/8061510-utilisez-le-responsive-design-avec-les-media-queries
+- https://github.com/candraKriswinarto/youtube2mp3
+- https://rapidapi.com/ytjar/api/youtube-mp36
+- https://docs.rapidapi.com/docs/developer-dashboard

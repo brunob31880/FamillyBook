@@ -9,7 +9,7 @@ export const NoMatch = () => {
   console.log(location);
   return (
     <div>
-        <h2>The page {location.pathname} does not exist </h2>
+        <h2 style={{color:"white"}}>The page {location.pathname} does not exist </h2>
     </div>
   )
 };
