@@ -8,12 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { setUser } from "../../actions/user";
 import { motion } from "framer-motion";
 import { Button, Icon } from "react-materialize";
-import { useParams } from "react-router-dom";
-import Parse from "parse/dist/parse.min.js"; //Import parse
 import { useLocation } from "react-router-dom";
 import { VideoList } from "./VideoList";
 import Header from "../../components/Header/Header";
-// create a stateless component ConnectedVideos with props category user and books
+// create a stateless component ConnectedVideos with props category user and videos
 // which return only a div
 export const ConnectedVideos = ({
     category,
@@ -24,11 +22,11 @@ export const ConnectedVideos = ({
     onDeleteType,
     setCategoryList,
 }: any) => {
-    //create a useEffect hook on mount that load the books by using ParseClasse function with parameter "Book"
-    //and set the books in the redux store with the function setBooks
+    //create a useEffect hook on mount that load the bideos by using ParseClasse function with parameter "Video"
+    //and set the videos in the redux store with the function setBooks
     useEffect(() => {
         ParseClasse("Videos", (videos: any) => {
-            setVideoList(videos);
+            setVideoList(JSON.parse(JSON.stringify(videos)));
         });
         ParseClasse("Category", (rep: any) => {
             setCategoryList(JSON.parse(JSON.stringify(rep)));
@@ -84,7 +82,7 @@ export const ConnectedVideos = ({
     const renderNavigation = () => {
         let tmp = [];
 
-        let obj = category.filter((object: any) => object.name === "Books")[0];
+        let obj = category.filter((object: any) => object.name === "Videos")[0];
         let catLinks: Array<String> = obj ? obj.list : [];
         console.log("CatLinks=" + JSON.stringify(catLinks));
         catLinks.forEach((object) => {
@@ -93,7 +91,7 @@ export const ConnectedVideos = ({
                     key={object as string}
                     waves="light"
                     className="btn"
-                    onClick={() => navigation("/ProtoBook/books/" + object)}
+                    onClick={() => navigation("/ProtoBook/videos/" + object)}
                 >
                     {" "}
                     {object}{" "}
@@ -104,7 +102,7 @@ export const ConnectedVideos = ({
             <a className="btn-floating btn-large waves-effect waves-light lightgreen">
                 <i
                     className="material-icons"
-                    onClick={() => navigation("/ProtoBook/create_links_category")}
+                    onClick={() => navigation("/ProtoBook/create_videos_category")}
                 >
                     add
                 </i>

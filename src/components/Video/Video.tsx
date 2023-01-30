@@ -1,30 +1,46 @@
-import React from "react";
+import React, { useEffect } from "react";
+
 import { Button } from "react-materialize";
-//create a stateless component with props object and handleContextMenu
-// wich return a div with a link to the url of the object
-// and a button with the name of the object
+import ReactAudioPlayer from 'react-audio-player';
+/**
+ * 
+ * @param param0 
+ * @returns 
+ */
 export const Video = ({ object, handleContextMenu }: any) => {
+  console.log("Object=", object);
+useEffect(()=>{
+  const jsmediatags = window.jsmediatags
+  jsmediatags.read(object.link, {
+    onSuccess: function(tag) {
+      var tags = tag.tags;
+  
+      var image = tags.picture;
+      if (image) {
+        var blob = new Blob([new Uint8Array(image.data)], { type: image.format });
+        var url = URL.createObjectURL(blob);
+        document.getElementById("image-"+object.title).setAttribute('src', url);
+      } else {
+        document.getElementById("image-"+object.title).style.display = "none";
+      }
+    }
+  });
+},[object.link])
   return (
     <div id="img_anchor" onContextMenu={handleContextMenu} className="colu">
-      <a target="_blank" href={object.url}>
+      <a target="_blank" href={object.link}>
         <div className="img-container">
-          {object.vignette && (
-            <img
-              className="fit-picture"
-              src={object.vignette.url}
-            ></img>
-          )}
+          <img width="140px" height="140px" id={"image-"+object.title}></img>
+          {object.title}
         </div>
       </a>
-      <Button
-        flat
-        node="button"
-        tooltip={object.descriptif}
-        tooltipOptions={{ position: "bottom" }}
-        style={{ marginTop: "20px", marginBottom: "10px" }}
-      >
-        {object.name}
-      </Button>
+      <ReactAudioPlayer
+        src={object.link}
+        autoPlay
+        controls
+      />
     </div>
+
+
   );
 };

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, SyntheticEvent } from "react";
-import { useNavigate } from "react-router-dom";
 import { setUser } from "../../actions/user";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -10,7 +9,7 @@ import "./createvideo.css";
 import Parse from "parse/dist/parse.min.js"; //Import parse
 import rapid_API_KEY from "../../datas/b4appconfig"
 //import axios from 'axios'
-import fileDownload from 'js-file-download'
+import { useNavigate } from "react-router-dom";
 /**
  *
  * @returns
@@ -85,16 +84,9 @@ const ConnectedCreateVideo = (props: any) => {
 
     }
 
-
     const handleSave = () => {
-        /*
-        axios.get(urlResult, {
-          responseType: 'blob',
-        })
-        .then((res) => {
-          fileDownload(res.data, "fic.mp3")
-        })
-        */
+        const {link,title,duration}=urlResult;
+        props.onCreateVideo(link,title,duration,onDone)
       }
     /**
      *
@@ -178,7 +170,8 @@ const ConnectedCreateVideo = (props: any) => {
                     waves="light"
                     onClick={(e) => handleSave()}
                 >
-                    Download
+                    Save
+                    <Icon left>save</Icon>
                 </Button>
                 }
             </div>

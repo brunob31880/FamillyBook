@@ -94,6 +94,10 @@
 
 - Idée de conversion de vidéo soir vers du MP4 a basse qualité soit vers du MP3.
 
+## 30 janvier 2023
+
+- Affichage et lecture des mp3 sur la pages Vidéos (on aurai du mettre Audio)
+- 
 ## TODO
 
 - Page Lien personnalisée la page peut etre arrangée à sa façon

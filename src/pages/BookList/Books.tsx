@@ -29,7 +29,7 @@ export const ConnectedBooks = ({
   //and set the books in the redux store with the function setBooks
   useEffect(() => {
     ParseClasse("Books", (books: any) => {
-      setBookList(books);
+      setBookList(JSON.parse(JSON.stringify(books)));
     });
     ParseClasse("Category", (rep: any) => {
       setCategoryList(JSON.parse(JSON.stringify(rep)));

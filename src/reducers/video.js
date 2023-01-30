@@ -17,10 +17,10 @@ const initialState = {
 const video= (state = initialState, action) => {
   switch (action.type) {
     case SET_VIDEO_LIST:
-      if (action.list) {
+      if (action.videos) {
         return {
           ...state,
-          video: action.list,
+          video: action.videos,
         };
       } else return state;
     default:

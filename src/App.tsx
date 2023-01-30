@@ -26,6 +26,7 @@ import { ParseClasse } from "./utility/ParseUtils";
 import { setThemeList } from "./actions/theme";
 import { setDocumentDimension } from "./actions/dimension";
 import { useRef } from "react";
+
 import {
   GetConnection,
   CreateClasse,
@@ -348,9 +349,23 @@ const ConnectedApp = (props: any) => {
       (e: any) => console.log("error " + e)
     );
   };
-
-  const handlerCreateVideo=()=>{
-    console.log("Create Video");
+  /**
+   * 
+   * @param link 
+   * @param name 
+   */
+  const handlerCreateVideo = (link:string,title:string,duration:Number,onDone:any) => {
+    console.log("Create Video with link="+link);
+    CreateClasse(
+      "Videos",
+      {
+        title: title,
+        link:link,
+        duration:duration
+      },
+      (c: any) => onDone(c),
+      (err: any) => console.log(err)
+    );
   }
   const handlerCreateBook = () => {
     console.log("Create Book");
@@ -370,9 +385,9 @@ const ConnectedApp = (props: any) => {
         path="/ProtoBook/create_book"
         element={<CreateBook onCreateBook={handlerCreateBook} />}
       />
-       <Route
+      <Route
         path="/ProtoBook/create_video"
-        element={<CreateVideo onCreateBook={handlerCreateVideo} />}
+        element={<CreateVideo onCreateVideo={handlerCreateVideo} />}
       />
       <Route
         path="/ProtoBook/home"
@@ -398,7 +413,7 @@ const ConnectedApp = (props: any) => {
         path="/ProtoBook/books"
         element={<Books onDeleteType={handleDeleteType} />}
       />
-       <Route
+      <Route
         path="/ProtoBook/videos"
         element={<Videos onDeleteType={handleDeleteType} />}
       />
@@ -437,7 +452,9 @@ const ConnectedApp = (props: any) => {
         path="/ProtoBook/create_richtext/edit/:id"
         element={<WrapperCreateRichText onModRichText={handlerModRichText} />}
       />
+     
       <Route path="/ProtoBook/*" element={<NoMatch />} />
+
     </Routes>
   );
 };
