@@ -130,3 +130,4 @@
 - https://github.com/candraKriswinarto/youtube2mp3
 - https://rapidapi.com/ytjar/api/youtube-mp36
 - https://docs.rapidapi.com/docs/developer-dashboard
+- https://scanbot.io/blog/react-barcode-reader-tutorial/

@@ -48,6 +48,7 @@
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
+    "scanbot-web-sdk": "^2.10.0",
     "slate": "^0.87.0",
     "slate-history": "^0.86.0",
     "slate-react": "^0.88.0"

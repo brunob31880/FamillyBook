@@ -2,7 +2,7 @@ body {
   /*background-color: #B2D9D2;*/
   font-family: Open Sans;
   background-image: url("./assets/library-1.png");
-  background-size: cover;
+  /*background-size: contain; */
   -webkit-animation: apparitionBackground 2s;
 }
 @-webkit-keyframes apparitionBackground {

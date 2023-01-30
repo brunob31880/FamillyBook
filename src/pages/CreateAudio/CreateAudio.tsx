@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button, Icon, TextInput } from "react-materialize";
 import { isConnected } from "../../utility/UserUtils";
-import "./createvideo.css";
+import "./createaudio.css";
 import Parse from "parse/dist/parse.min.js"; //Import parse
 import rapid_API_KEY from "../../datas/b4appconfig"
 //import axios from 'axios'
@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
  *
  * @returns
  */
-const ConnectedCreateVideo = (props: any) => {
+const ConnectedCreateAudio = (props: any) => {
     const { user, link, category, value, dimension } = props;
     const [saving, setSaving] = useState(false);
     const [urlResult, setUrlResult] = useState(null);
@@ -59,16 +59,18 @@ const ConnectedCreateVideo = (props: any) => {
      */
     const onDone = () => {
         setSaving(false);
+        /*
         if (user && user.username) {
             navigation("/ProtoBook/videos");
         }
+        */
     };
     /**
      *
      * @param e
      */
     const handleCancel = (e: SyntheticEvent) => {
-        navigation("/ProtoBook/videos");
+        navigation("/ProtoBook/audios");
     };
 
 
@@ -85,8 +87,8 @@ const ConnectedCreateVideo = (props: any) => {
     }
 
     const handleSave = () => {
-        const {link,title,duration}=urlResult;
-        props.onCreateVideo(link,title,duration,onDone)
+        const {link,title}=urlResult;
+        props.onCreateAudio(link,title,onDone)
       }
     /**
      *
@@ -119,7 +121,7 @@ const ConnectedCreateVideo = (props: any) => {
             animate={{ opacity: 1 }}
         >
             <div className="link_title">
-                <h3>Video</h3>
+                <h3>Audio</h3>
             </div>
             <div className="input-field ">
                 <i className="material-icons prefix">videocam</i>
@@ -203,9 +205,9 @@ const mapStateToProps = (state: any) => {
     };
 };
 
-const CreateVideo = connect(
+const CreateAudio = connect(
     mapStateToProps,
     mapDispatchToProps
-)(ConnectedCreateVideo);
+)(ConnectedCreateAudio);
 
-export default CreateVideo;
+export default CreateAudio;

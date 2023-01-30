@@ -15,7 +15,7 @@ const ConnectedHeader = (props: any) => {
     "2": { link: "Docs", icon: "library_books", road: "richtext" },
     "3": { link: "Home", icon: "home", road: "home" },
     "4": { link: "Book", icon: "library_books", road: "books" },
-    "5": { link: "Video", icon: "tv", road: "videos" },
+    "5": { link: "Audio", icon: "audiotrack", road: "audios" },
     "6": { link: "leave", icon: "directions_run", road: "leave" },
   };
   const panelRichText = {
@@ -23,14 +23,14 @@ const ConnectedHeader = (props: any) => {
     "2": { link: "links", icon: "insert_link", road: "links" },
     "3": { link: "Home", icon: "home", road: "home" },
     "4": { link: "Book", icon: "library_books", road: "books" },
-    "5": { link: "Video", icon: "tv", road: "videos" },
+    "5": { link: "Audio", icon: "audiotrack", road: "audios" },
     "6": { link: "leave", icon: "directions_run", road: "leave" },
   };
   const panelHome = {
     "1": { link: "links", icon: "insert_link", road: "links" },
     "2": { link: "Docs", icon: "text_fields", road: "richtext" },
     "3": { link: "Book", icon: "library_books", road: "books" },
-    "4": { link: "Video", icon: "tv", road: "videos" },
+    "4": { link: "Audio", icon: "audiotrack", road: "audios" },
     "5": { link: "leave", icon: "directions_run", road: "leave" },
   };
   const panelBook = {
@@ -38,12 +38,12 @@ const ConnectedHeader = (props: any) => {
     "2": { link: "links", icon: "insert_link", road: "links" },
     "3": { link: "Docs", icon: "text_fields", road: "richtext" },
     "4": { link: "Home", icon: "home", road: "home" },
-    "5": { link: "Video", icon: "tv", road: "videos" },
+    "5": { link: "Audio", icon: "audiotrack", road: "audios" },
     "6": { link: "leave", icon: "directions_run", road: "leave" },
   };
 
-  const panelVideo = {
-    "1": { link: "create", icon: "add", road: "create_video" },
+  const panelAudio = {
+    "1": { link: "create", icon: "add", road: "create_audio" },
     "2": { link: "links", icon: "insert_link", road: "links" },
     "3": { link: "Docs", icon: "text_fields", road: "richtext" },
     "4": { link: "Home", icon: "home", road: "home" },
@@ -72,8 +72,8 @@ const ConnectedHeader = (props: any) => {
       tab = { ...panelBook };
     else if (useLocation().pathname === "/ProtoBook/home")
       tab = { ...panelHome };
-    else if (useLocation().pathname.includes("/ProtoBook/videos"))
-      tab = { ...panelVideo };
+    else if (useLocation().pathname.includes("/ProtoBook/audios"))
+      tab = { ...panelAudio };
     else
       console.log("can't find a configuration for " + useLocation().pathname);
     // console.log("Tab=" + JSON.stringify(tab));

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { connect } from "react-redux";
-import { setVideoList } from "../../actions/video";
+import { setAudioList } from "../../actions/audio";
 import { ParseClasse, Logout } from "../../utility/ParseUtils";
 import { setCategoryList } from "../../actions/category";
 import { isConnected } from "../../utility/UserUtils";
@@ -9,14 +9,13 @@ import { setUser } from "../../actions/user";
 import { motion } from "framer-motion";
 import { Button, Icon } from "react-materialize";
 import { useLocation } from "react-router-dom";
-import { VideoList } from "./VideoList";
+import { AudioList } from "./AudioList";
 import Header from "../../components/Header/Header";
-// create a stateless component ConnectedVideos with props category user and videos
-// which return only a div
-export const ConnectedVideos = ({
+
+export const ConnectedAudios = ({
     category,
     user,
-    video,
+    audio,
     setVideoList,
     setUser,
     onDeleteType,
@@ -25,8 +24,8 @@ export const ConnectedVideos = ({
     //create a useEffect hook on mount that load the bideos by using ParseClasse function with parameter "Video"
     //and set the videos in the redux store with the function setBooks
     useEffect(() => {
-        ParseClasse("Videos", (videos: any) => {
-            setVideoList(JSON.parse(JSON.stringify(videos)));
+        ParseClasse("Audios", (audios: any) => {
+            setVideoList(JSON.parse(JSON.stringify(audios)));
         });
         ParseClasse("Category", (rep: any) => {
             setCategoryList(JSON.parse(JSON.stringify(rep)));
@@ -102,7 +101,7 @@ export const ConnectedVideos = ({
             <a className="btn-floating btn-large waves-effect waves-light lightgreen">
                 <i
                     className="material-icons"
-                    onClick={() => navigation("/ProtoBook/create_videos_category")}
+                    onClick={() => navigation("/ProtoBook/create_audios_category")}
                 >
                     add
                 </i>
@@ -115,8 +114,8 @@ export const ConnectedVideos = ({
         console.log("loc=" + useLocation());
         // if location is SearchBook then return SearchBook  
         return (
-            <VideoList
-                videos={video}
+            <AudioList
+                audios={audio}
                 uid={user.objectId}
                 category={category}
                 contextMenuListener={contextMenuListener}
@@ -216,7 +215,7 @@ const mapStateToProps = (state: any) => {
     return {
         category: state.category.category,
         user: state.user.user,
-        video: state.video.video,
+        audio: state.audio.audio,
     };
 };
 //create a function mapDispatchToProps wich return an object with functions setUser, setCategory and setVideoList
@@ -224,15 +223,15 @@ const mapDispatchToProps = (dispatch: any) => {
     return {
         setUser: (user: any) => dispatch(setUser(user)),
         setCategoryList: (category: any) => dispatch(setCategoryList(category)),
-        setVideoList: (videos: any) => dispatch(setVideoList(videos)),
+        setAudioList: (audios: any) => dispatch(setAudioList(audios)),
 
     };
 };
 
 //connect ConnectedVideos to redux store
-export const Videos = connect(
+export const Audios = connect(
     mapStateToProps,
     mapDispatchToProps
-)(ConnectedVideos);
+)(ConnectedAudios);
 //export Books
-export default Videos;
+export default Audios;

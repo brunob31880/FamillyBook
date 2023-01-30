@@ -1,4 +1,4 @@
-import { SET_VIDEO_LIST } from "../constants/action-type";
+import { SET_AUDIO_LIST } from "../constants/action-type";
 import Logger from "../logging/Logger";
 
 let logger = Logger.getInstance();
@@ -6,7 +6,7 @@ let logger = Logger.getInstance();
 //
 
 const initialState = {
-  video: [],
+  audio: [],
 };
 /**
  *
@@ -16,11 +16,11 @@ const initialState = {
  */
 const video= (state = initialState, action) => {
   switch (action.type) {
-    case SET_VIDEO_LIST:
-      if (action.videos) {
+    case SET_AUDIO_LIST:
+      if (action.audios) {
         return {
           ...state,
-          video: action.videos,
+          audio: action.audios,
         };
       } else return state;
     default:

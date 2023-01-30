@@ -1,6 +1,6 @@
 import LoginForm from "./pages/Login/LoginForm";
 import CreateBook from "./pages/CreateBook/CreateBook";
-import CreateVideo from "./pages/CreateVideo/CreateVideo";
+import CreateAudio from "./pages/CreateAudio/CreateAudio";
 import CreateLink from "./pages/CreateLink/CreateLink";
 import CreateRichText from "./pages/CreateRichText/CreateRichText";
 import CreateLinkCategory from "./pages/CreateLinkCategory/CreateLinkCategory";
@@ -8,7 +8,7 @@ import CreateRichTextCategory from "./pages/CreateRichTextCategory/CreateRichTex
 import Home from "./pages/Home/Home";
 import Links from "./pages/LinkList/Links";
 import Books from "./pages/BookList/Books";
-import Videos from "./pages/VideoList/Videos";
+import Audios from "./pages/AudioList/Audio";
 import RichTexts from "./pages/RichTextList/RichText";
 import { NoMatch } from "./pages/NoMatch";
 import { Routes, Route } from "react-router-dom";
@@ -354,14 +354,13 @@ const ConnectedApp = (props: any) => {
    * @param link 
    * @param name 
    */
-  const handlerCreateVideo = (link:string,title:string,duration:Number,onDone:any) => {
-    console.log("Create Video with link="+link);
+  const handlerCreateAudio = (link:string,title:string,onDone:any) => {
+    console.log("Create Audio with link="+link);
     CreateClasse(
-      "Videos",
+      "Audios",
       {
         title: title,
         link:link,
-        duration:duration
       },
       (c: any) => onDone(c),
       (err: any) => console.log(err)
@@ -386,8 +385,8 @@ const ConnectedApp = (props: any) => {
         element={<CreateBook onCreateBook={handlerCreateBook} />}
       />
       <Route
-        path="/ProtoBook/create_video"
-        element={<CreateVideo onCreateVideo={handlerCreateVideo} />}
+        path="/ProtoBook/create_audio"
+        element={<CreateAudio onCreateVideo={handlerCreateAudio} />}
       />
       <Route
         path="/ProtoBook/home"
@@ -414,8 +413,8 @@ const ConnectedApp = (props: any) => {
         element={<Books onDeleteType={handleDeleteType} />}
       />
       <Route
-        path="/ProtoBook/videos"
-        element={<Videos onDeleteType={handleDeleteType} />}
+        path="/ProtoBook/audios"
+        element={<Audios onDeleteType={handleDeleteType} />}
       />
       <Route
         path="/ProtoBook/richtext"
