@@ -37,10 +37,10 @@ export const ConnectedBooks = ({
 
     Parse.Cloud.run("fetch_isbn", { isbn_number: "0735619670" }).then(
       function (result) {
-        console.log("resultat " , result);
-        const {imageLinks}=result;
-        const {thumbnail}=imageLinks;
-        console.log("thumbnail ", thumbnail);
+        console.log("resultat ", result);
+        // const {imageLinks}=result;
+        // const {thumbnail}=imageLinks;
+        //console.log("thumbnail ", thumbnail);
       }
     );
   }, []);
@@ -124,7 +124,7 @@ export const ConnectedBooks = ({
   };
   //
   const renderListElements = () => {
-    console.log("loc=" + useLocation());
+    //  console.log("loc=" + useLocation());
     // if location is SearchBook then return SearchBook
     if (useLocation().pathname.includes("ProtoBook/books/searchbook"))
       return <SearchBook />;
@@ -149,9 +149,9 @@ export const ConnectedBooks = ({
     );
     navigation(
       "/ProtoBook/create_" +
-        refPopup.current.type +
-        "/edit/" +
-        refPopup.current.action
+      refPopup.current.type +
+      "/edit/" +
+      refPopup.current.action
     );
   };
   //onDel
@@ -240,7 +240,7 @@ const mapDispatchToProps = (dispatch: any) => {
     setUser: (user: any) => dispatch(setUser(user)),
     setCategoryList: (category: any) => dispatch(setCategoryList(category)),
     setBookList: (books: any) => dispatch(setBookList(books)),
-   
+
   };
 };
 

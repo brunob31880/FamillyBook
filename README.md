@@ -97,7 +97,11 @@
 ## 30 janvier 2023
 
 - Affichage et lecture des mp3 sur la pages Vidéos (on aurai du mettre Audio)
-- 
+
+## 3 fevrier 2023
+
+- Scan ISBN en utilisation useHtml5QrCodeScanner
+
 ## TODO
 
 - Page Lien personnalisée la page peut etre arrangée à sa façon
@@ -130,4 +134,4 @@
 - https://github.com/candraKriswinarto/youtube2mp3
 - https://rapidapi.com/ytjar/api/youtube-mp36
 - https://docs.rapidapi.com/docs/developer-dashboard
-- https://scanbot.io/blog/react-barcode-reader-tutorial/
+-https://blog.minhazav.dev/QR-and-barcode-scanner-using-html-and-javascript/

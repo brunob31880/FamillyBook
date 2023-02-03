@@ -1,7 +1,7 @@
 import React, { useState, useEffect, SyntheticEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "../../actions/user";
-
+import article from '../../assets/article.jpg';
 import { Button } from "react-materialize";
 import { connect } from "react-redux";
 import "./richtext.css";
@@ -30,13 +30,13 @@ const ConnectedRichText = (props: any) => {
     <div onContextMenu={handleContextMenu} className="colu">
       <p>{object.title}</p>   
         <div className="img-container">
-          {object.vignette && (
+          
             <img
               className="fit-picture"
-              src={object.vignette.url}
+              src={article}
               onClick={()=>handleOnClick(object.objectId)}
             ></img>
-          )}
+          
         </div>
         <Button
        flat

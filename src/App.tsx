@@ -151,9 +151,10 @@ const ConnectedApp = (props: any) => {
     titre: string,
     categorySelected: string,
     content: any,
-    b64,
+    //b64,
     onDone: any
   ) => {
+    /*
     let parsefile;
     if (b64 !== null) {
       console.log("Building parse file with " + JSON.stringify(b64));
@@ -161,6 +162,7 @@ const ConnectedApp = (props: any) => {
       let fileName = "picture_" + now.toDateString() + ".png";
       parsefile = new Parse.File(fileName, { base64: b64 });
     }
+    */
     //  parsefile.save().then(
     //    function () {
     //      console.log("ParseFile created");
@@ -170,7 +172,7 @@ const ConnectedApp = (props: any) => {
         name: titre,
         category: categorySelected,
         content: content,
-        vignette: parsefile,
+        //vignette: parsefile,
         userId: user.objectId,
       },
       (c: any) => onDone(c),
@@ -288,10 +290,11 @@ const ConnectedApp = (props: any) => {
     titre: string,
     categorySelected: string,
     content: any,
-    b64,
+   // b64,
     onDone: any
   ) => {
     console.log("Selected category ", categorySelected);
+    /*
     let parsefile;
     if (b64 !== null) {
       console.log("Building parse file with " + JSON.stringify(b64));
@@ -299,6 +302,7 @@ const ConnectedApp = (props: any) => {
       let fileName = "picture_" + now.toDateString() + ".png";
       parsefile = new Parse.File(fileName, { base64: b64 });
     }
+    */
     // parsefile.save().then(
     //   function () {
     //      console.log("ParseFile created");
@@ -310,7 +314,7 @@ const ConnectedApp = (props: any) => {
         name: titre,
         category: categorySelected,
         content: content,
-        vignette: parsefile,
+       // vignette: parsefile,
         userId: user.objectId,
       },
       (c: any) => onDone(c),
@@ -354,20 +358,41 @@ const ConnectedApp = (props: any) => {
    * @param link 
    * @param name 
    */
-  const handlerCreateAudio = (link:string,title:string,onDone:any) => {
-    console.log("Create Audio with link="+link);
+  const handlerCreateAudio = (link: string, title: string, onDone: any) => {
+    console.log("Create Audio with link=" + link);
     CreateClasse(
       "Audios",
       {
         title: title,
-        link:link,
+        link: link,
       },
       (c: any) => onDone(c),
       (err: any) => console.log(err)
     );
   }
-  const handlerCreateBook = () => {
+  const handlerCreateBook = (
+    isbn: string,
+    title: string,
+    authors: Array<string>,
+    pageCount: string,
+    thumbnail: string,
+    onDone: any
+  ) => {
     console.log("Create Book");
+    //  props.onCreateBook(state.isbn, title,authors,pageCount,thumbnail,onDone);
+    CreateClasse(
+      "Books",
+      {
+        title: title,
+        isbn: isbn,
+        authors: authors,
+        pageCount: pageCount,
+        thumbnail: thumbnail,
+        userId: user.objectId,
+      },
+      (c: any) => onDone(c),
+      (err: any) => console.log(err)
+    );
   };
   /**
    *
@@ -451,7 +476,7 @@ const ConnectedApp = (props: any) => {
         path="/ProtoBook/create_richtext/edit/:id"
         element={<WrapperCreateRichText onModRichText={handlerModRichText} />}
       />
-     
+
       <Route path="/ProtoBook/*" element={<NoMatch />} />
 
     </Routes>

@@ -27,6 +27,7 @@
     "parcel": "^2.8.3",
     "parse": "3.4.4",
     "prop-types": "^15.8.1",
+    "quagga": "^0.12.1",
     "react": "^18.2.0",
     "react-audio-player": "^0.17.0",
     "react-audio-voice-recorder": "^1.0.4",
@@ -34,6 +35,7 @@
     "react-download-link": "^2.3.0",
     "react-fa-icon-picker": "^1.0.3",
     "react-grid-carousel": "^1.0.1",
+    "react-html5-qrcode-reader": "^1.1.1",
     "react-icons": "^4.7.1",
     "react-katex": "^3.0.1",
     "react-materialize": "^3.10.0",
@@ -48,7 +50,6 @@
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
-    "scanbot-web-sdk": "^2.10.0",
     "slate": "^0.87.0",
     "slate-history": "^0.86.0",
     "slate-react": "^0.88.0"

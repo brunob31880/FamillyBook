@@ -1,16 +1,16 @@
-import React, { useState, useEffect, SyntheticEvent } from "react";
+import React, { useState, useEffect, SyntheticEvent, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "../../actions/user";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Button, Icon, TextInput } from "react-materialize";
+import { Button, Icon } from "react-materialize";
 import { isConnected } from "../../utility/UserUtils";
-import { AudioRecorder } from 'react-audio-voice-recorder';
-import {RecordView} from "../../components/MediaRecorder/RecordView";
-import {isMobileDevice} from "../../utility/DeviceUtils";
+//import { AudioRecorder } from 'react-audio-voice-recorder';
+import { useHtml5QrCodeScanner } from 'react-html5-qrcode-reader';
+import { isMobileDevice } from "../../utility/DeviceUtils";
 import "./createbook.css";
-import { getName } from "../../utility/CategoryListUtils";
+
 import Parse from "parse/dist/parse.min.js"; //Import parse
 /**
  *
@@ -19,8 +19,11 @@ import Parse from "parse/dist/parse.min.js"; //Import parse
 const ConnectedCreateBook = (props: any) => {
   const { user, link, category, value, dimension } = props;
   const [saving, setSaving] = useState(false);
-
+  const [data, setData] = useState("Not Found");
   let { id } = useParams();
+  const { Html5QrcodeScanner } = useHtml5QrCodeScanner(
+    'https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js'
+  );
 
   const [state, setState] = useState({
     isbn: "",
@@ -64,8 +67,9 @@ const ConnectedCreateBook = (props: any) => {
       });
     });
   }, [state.isbn]);
-  //create a useEffect hook looking at user and use isConnected function to check if the user is connected
-  //if not, redirect to the login page
+  /**
+   * 
+   */
   useEffect(() => {
     if (!isConnected(user)) {
       navigation("/ProtoBook/");
@@ -97,18 +101,17 @@ const ConnectedCreateBook = (props: any) => {
     event.preventDefault();
     let target = event.target as HTMLInputElement;
     setSaving(true);
+    const { imageLinks, title, authors, pageCount } = state.result;
+    const { thumbnail } = imageLinks;
     if (value && value.objectId !== "")
-      props.onModBook(value.objectId, state.isbn, onDone);
-    else props.onCreateProto(state.isbn, onDone);
+      props.onModBook(value.objectId, state.isbn, title, authors, pageCount, thumbnail, onDone);
+    else {
+
+      props.onCreateBook(state.isbn, title, authors, pageCount, thumbnail, onDone);
+    }
   };
-  /**
-   * 
-   * @param event 
-   */
-  const handleSound = (event: SyntheticEvent) => {
-    event.preventDefault();
-    console.log("Save sound")
-  }
+
+
   /**
    *
    * @returns
@@ -135,19 +138,31 @@ const ConnectedCreateBook = (props: any) => {
     if (value) return <Icon left>mode_edit</Icon>;
     else return <Icon left>save</Icon>;
   };
-  /**
-   * 
-   * @param blob 
-   */
-  const addAudioElement = (blob) => {
-    const url = URL.createObjectURL(blob);
-    console.log("Audio URL: ", url);
-    const audio = document.createElement("audio");
-    audio.src = url;
-    audio.controls = true;
-    document.body.appendChild(audio);
-  };
- 
+  /*
+    const addAudioElement = (blob) => {
+      { isMobileDevice(dimension) && <AudioRecorder onRecordingComplete={addAudioElement} />}
+      const url = URL.createObjectURL(blob);
+      console.log("Audio URL: ", url);
+      const audio = document.createElement("audio");
+      audio.src = url;
+      audio.controls = true;
+      document.body.appendChild(audio);
+    };
+  */
+  useEffect(() => {
+    console.log("Scanner is ready")
+    if (Html5QrcodeScanner) {
+      // Creates anew instance of `HtmlQrcodeScanner` and renders the block.
+      let html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader",
+        { fps: 10, qrbox: { width: 200, height: 200 } },
+          /* verbose= */ false);
+      html5QrcodeScanner.render(
+        (data: any) => console.log('success ->', data),
+        (err: any) => console.log('err ->', err)
+      );
+    }
+  }, [Html5QrcodeScanner]);
   /**
    *
    */
@@ -161,6 +176,7 @@ const ConnectedCreateBook = (props: any) => {
       <div className="link_title">
         <h3>Book</h3>
       </div>
+      <div id='reader'></div>
       <div className="input-field ">
         <i className="material-icons prefix">bookshelf</i>
         <input
@@ -174,7 +190,7 @@ const ConnectedCreateBook = (props: any) => {
       </div>
 
       {getVignette()}
-      {isMobileDevice(dimension) && <AudioRecorder onRecordingComplete={addAudioElement} />}
+
       <div className="link_controls" style={{ marginTop: "10px" }}>
         <Button
           className="btn"
@@ -188,7 +204,7 @@ const ConnectedCreateBook = (props: any) => {
           Cancel
           <Icon left>cancel</Icon>
         </Button>
-        
+
         <Button
           className="btn"
           node="button"

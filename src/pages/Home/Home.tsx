@@ -7,6 +7,7 @@ import { setCategoryList } from "../../actions/category";
 import { setRichTextList } from "../../actions/richtext";
 import { connect } from "react-redux";
 import { ParseClasse, Logout } from "../../utility/ParseUtils";
+import {isMobileDevice} from "../../utility/DeviceUtils";
 import Header from "../../components/Header/Header";
 import Carousel from "react-grid-carousel";
 
@@ -16,7 +17,7 @@ import "./home.css";
  * @returns
  */
 const ConnectedHome = (props: any) => {
-  const { category, user, link, richtext } = props;
+  const { category, user, link, dimension} = props;
   let initialPopup: HTMLDivElement = null;
   let initialEdit: Element = null;
   let initialDel: Element = null;
@@ -87,6 +88,7 @@ const ConnectedHome = (props: any) => {
       <div className="center">
         <article>
           <h1>Links: {link.length}</h1>
+          {!isMobileDevice(dimension) && 
           <Carousel
             cols={6}
             rows={1}
@@ -94,7 +96,7 @@ const ConnectedHome = (props: any) => {
             containerStyle={{ background: "transparent" }}
           >
             {renderListElements()}
-          </Carousel>
+          </Carousel> }
         </article>
       </div>
       <footer></footer>
@@ -126,6 +128,7 @@ const mapStateToProps = (state: any) => {
     link: state.link.link,
     category: state.category.category,
     richtext: state.richtext.richtext,
+    dimension: state.dimension.dimension
   };
 };
 

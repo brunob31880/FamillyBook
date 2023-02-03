@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { setUser } from "../../actions/user";
 import { connect } from "react-redux";
 import { Button, Icon } from "react-materialize";
+import {isMobileDevice} from "../../utility/DeviceUtils"
 import "./Header.css";
 /**
  *
@@ -52,7 +53,7 @@ const ConnectedHeader = (props: any) => {
   };
   const isRoot = () => user && user.privilege === "root";
 
-  const btnStyle=()=> (dimension.width>400) ? "btn" : "btn-small"
+  const btnStyle=()=> (!isMobileDevice(dimension)) ? "btn" : "btn-small"
 
   // console.log("Location " + JSON.stringify(location));
   /**
@@ -61,9 +62,9 @@ const ConnectedHeader = (props: any) => {
    */
   const getContextButtons = () => {
     let tab = { "1": { link: "leave", icon: "directions_run", road: "leave" } };
-    console.log(
+   /* console.log(
       "Get Buttons for page " + JSON.stringify(useLocation().pathname)
-    );
+    ); */
     if (useLocation().pathname.includes("/ProtoBook/links"))
       tab = { ...panelLink };
     else if (useLocation().pathname.includes("/ProtoBook/richtext"))

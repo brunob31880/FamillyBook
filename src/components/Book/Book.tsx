@@ -1,17 +1,22 @@
 import React from "react";
 import { Button } from "react-materialize";
-//create a stateless component with props object and handleContextMenu
-// wich return a div with a link to the url of the object
-// and a button with the name of the object
+/**
+ * 
+ * @param param0 
+ * @returns 
+ */
 export const Book = ({ object, handleContextMenu }: any) => {
+  console.log("Object ", object.thumbnail)
   return (
     <div id="img_anchor" onContextMenu={handleContextMenu} className="colu">
       <a target="_blank" href={object.url}>
         <div className="img-container">
-          {object.vignette && (
+          {object.thumbnail && (
             <img
+              width="100px"
+              height="100px"
               className="fit-picture"
-              src={object.vignette.url}
+              src={object.thumbnail}
             ></img>
           )}
         </div>
@@ -23,7 +28,7 @@ export const Book = ({ object, handleContextMenu }: any) => {
         tooltipOptions={{ position: "bottom" }}
         style={{ marginTop: "20px", marginBottom: "10px" }}
       >
-        {object.name}
+        {object.title}
       </Button>
     </div>
   );
