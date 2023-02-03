@@ -72,7 +72,7 @@ const ConnectedCreateLinkCategory = (props: any) => {
    */
   return (
     <motion.form
-      className="m-login-form center"
+      className="m-link-form center"
       onSubmit={handleSubmit}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

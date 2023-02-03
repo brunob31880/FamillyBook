@@ -14,6 +14,7 @@ import Parse from "parse/dist/parse.min.js"; //Import parse
 import { useLocation } from "react-router-dom";
 import { BookList } from "./BookList";
 import Header from "../../components/Header/Header";
+import './books.css'
 // create a stateless component ConnectedBooks with props category user and books
 // which return only a div
 export const ConnectedBooks = ({
@@ -190,7 +191,7 @@ export const ConnectedBooks = ({
 
   return (
     <motion.div
-      id="grid"
+      id="grid-books"
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
     >

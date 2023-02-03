@@ -9,6 +9,7 @@ import { ParseClasse, Logout } from "../../utility/ParseUtils";
 import Header from "../../components/Header/Header";
 import {  Button,Icon } from "react-materialize";
 import { truncateString } from "../../utility/StringUtils";
+import {isMobileDevice} from "../../utility/DeviceUtils"
 import { LinkList } from "../LinkList/LinkList";
 import { isConnected } from "../../utility/UserUtils";
 import { getName, getIcon,convertCamelCaseStringToHyphenatedString } from "../../utility/CategoryListUtils";
@@ -93,7 +94,7 @@ const ConnectedLinks = (props: any) => {
         >
           {" "}
           {getIcon(object) &&  <i style={{marginRight:"5px",lineHeight:"27px",height:"27px"}} className={"fas "+convertCamelCaseStringToHyphenatedString(getIcon(object))}/>}
-          {dimension.width>400 &&  truncateString(getName(object),8) }     
+          {!isMobileDevice(dimension) &&  truncateString(getName(object),8) }     
         </Button>
       );
     });
@@ -181,7 +182,7 @@ const ConnectedLinks = (props: any) => {
    */
   return (
     <motion.div
-      id="grid"
+      id="grid-links"
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
     >

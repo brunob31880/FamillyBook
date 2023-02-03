@@ -1,5 +1,5 @@
 import React from "react";
-import { Book } from "../../components/Book/Book";
+import Book from "../../components/Book/Book";
 // create a stateless component with props books and uid and category
 // filter the books with the objectID equal to uid and category
 // wich map the object tab and return a list of Book component
@@ -9,7 +9,7 @@ export const BookList = ({
     category,
     contextMenuListener,
 }: any) => {
-    console.log("Books ", books)
+  //  console.log("Books ", books)
     return (
         <>
             {books

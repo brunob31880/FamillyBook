@@ -135,8 +135,8 @@ const ConnectedCreateBook = (props: any) => {
    * @returns
    */
   const getIcon = () => {
-    if (value) return <Icon left>mode_edit</Icon>;
-    else return <Icon left>save</Icon>;
+    if (value) return <Icon>mode_edit</Icon>;
+    else return <Icon>save</Icon>;
   };
   /*
     const addAudioElement = (blob) => {
@@ -158,7 +158,10 @@ const ConnectedCreateBook = (props: any) => {
         { fps: 10, qrbox: { width: 200, height: 200 } },
           /* verbose= */ false);
       html5QrcodeScanner.render(
-        (data: any) => console.log('success ->', data),
+        (data: any) => {
+          console.log('success ->', data)
+          setState({...state,isbn:data});
+        },
         (err: any) => console.log('err ->', err)
       );
     }
@@ -197,12 +200,13 @@ const ConnectedCreateBook = (props: any) => {
           node="button"
           style={{
             marginRight: "5px",
+            display:"flex"
           }}
           waves="light"
           onClick={(e) => handleCancel(e)}
         >
           Cancel
-          <Icon left>cancel</Icon>
+          <Icon>cancel</Icon>
         </Button>
 
         <Button
@@ -210,6 +214,7 @@ const ConnectedCreateBook = (props: any) => {
           node="button"
           style={{
             marginRight: "5px",
+            display:"flex"
           }}
           waves="light"
           onClick={(e) => handleSubmit(e)}

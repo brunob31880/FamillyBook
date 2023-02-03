@@ -1,4 +1,4 @@
-.m-login-form {
+.m-create-link-form {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -8,24 +8,24 @@
   box-shadow: 4px 7px 1px 0px rgba(0, 0, 0, 0.2);
   width: 400px;
 }
-.m-login-form span {
+.m-create-link-form span {
   margin-top: 25px;
   font-weight: bold;
   letter-spacing: 1px;
 }
 
-.m-login-form .show-error {
+.m-create-link-form .show-error {
   opacity: 1;
   margin-top: 10px;
 }
-.m-login-form h3 {
+.m-create-link-form h3 {
   font-weight: 800;
   font-size: 1.4rem;
   text-transform: uppercase;
   color: #494949;
 }
-.m-login-form input[type="text"],
-.m-login-form input[type="password"] {
+.m-create-link-form input[type="text"],
+.m-create-link-form input[type="password"] {
   display: block;
   border: none;
   border-bottom: 2px solid rgba(173, 173, 173, 0.4);
@@ -33,7 +33,7 @@
   color: #494949;
   width: 100%;
 }
-.m-login-form input[type="submit"] {
+.m-create-link-form input[type="submit"] {
   border: none;
   background-color: #58dd77;
   color: #fff;

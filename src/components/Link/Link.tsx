@@ -4,6 +4,7 @@ import { setUser } from "../../actions/user";
 import "materialize-css";
 import { Button } from "react-materialize";
 import { connect } from "react-redux";
+import {isMobileDevice} from "../../utility/DeviceUtils"
 import "./link.css";
 
 /**
@@ -11,17 +12,23 @@ import "./link.css";
  * @returns
  */
 const ConnectedLink = (props: any) => {
-  const { user, object, handleContextMenu } = props;
+  const { user, object, handleContextMenu,dimension} = props;
 
+  const mobileStyle={
+    "width":"100px"
+  }
+  const desktopStyle={
+    "width":"200px"
+  }
   /**
    *
    */
   return (
     <div id="img_anchor" onContextMenu={handleContextMenu} className="colu">
       <a target="_blank" href={object.url}>
-        <div className="img-container">
+        <div className="img-container-link" style={isMobileDevice(dimension)?mobileStyle:desktopStyle}>
           {object.vignette && (
-            <img className="fit-picture" src={object.vignette.url}></img>
+            <img className="fit-picture" src={object.vignette.url}  style={isMobileDevice(dimension)?mobileStyle:desktopStyle}></img>
           )}
         </div>
       </a>
@@ -65,6 +72,7 @@ const mapDispatchToProps = (dispatch: any) => {
 const mapStateToProps = (state: any) => {
   return {
     user: state.user.user,
+    dimension: state.dimension.dimension
   };
 };
 

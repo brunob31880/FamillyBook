@@ -174,7 +174,7 @@ export const ConnectedAudios = ({
 
     return (
         <motion.div
-            id="grid"
+            id="grid-audios"
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
         >

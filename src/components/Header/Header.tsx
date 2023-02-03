@@ -3,14 +3,14 @@ import { useLocation } from "react-router-dom";
 import { setUser } from "../../actions/user";
 import { connect } from "react-redux";
 import { Button, Icon } from "react-materialize";
-import {isMobileDevice} from "../../utility/DeviceUtils"
+import { isMobileDevice } from "../../utility/DeviceUtils"
 import "./Header.css";
 /**
  *
  * @returns
  */
 const ConnectedHeader = (props: any) => {
-  const { user, action,dimension } = props;
+  const { user, action, dimension } = props;
   const panelLink = {
     "1": { link: "create", icon: "add", road: "create_link" },
     "2": { link: "Docs", icon: "library_books", road: "richtext" },
@@ -53,7 +53,7 @@ const ConnectedHeader = (props: any) => {
   };
   const isRoot = () => user && user.privilege === "root";
 
-  const btnStyle=()=> (!isMobileDevice(dimension)) ? "btn" : "btn-small"
+  const btnStyle = () => (!isMobileDevice(dimension)) ? "btn" : "btn-small"
 
   // console.log("Location " + JSON.stringify(location));
   /**
@@ -62,9 +62,9 @@ const ConnectedHeader = (props: any) => {
    */
   const getContextButtons = () => {
     let tab = { "1": { link: "leave", icon: "directions_run", road: "leave" } };
-   /* console.log(
-      "Get Buttons for page " + JSON.stringify(useLocation().pathname)
-    ); */
+    /* console.log(
+       "Get Buttons for page " + JSON.stringify(useLocation().pathname)
+     ); */
     if (useLocation().pathname.includes("/ProtoBook/links"))
       tab = { ...panelLink };
     else if (useLocation().pathname.includes("/ProtoBook/richtext"))
@@ -81,16 +81,17 @@ const ConnectedHeader = (props: any) => {
     return Object.entries(tab).map(([key, but]) => (
       <Button
         key={key}
-        className={isRoot() ? btnStyle() : "btn disabled"}
+        className={isRoot() ? "btn" : "btn disabled"}
         node="button"
         style={{
-          marginRight: "5px",
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between'
         }}
+
         waves="light"
         onClick={() => action(but.road)}
       >
-        {but.link}
-        <Icon style={{ lineHeight: "inherit" }} left>
+        {!isMobileDevice(dimension) && but.link}
+        <Icon style={{ lineHeight: "27px", height: "27px" }}>
           {but.icon}
         </Icon>
       </Button>

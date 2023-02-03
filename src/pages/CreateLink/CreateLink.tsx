@@ -219,15 +219,15 @@ const ConnectedCreateLink = (props: any) => {
    * @returns
    */
   const getIcon = () => {
-    if (value) return <Icon left>mode_edit</Icon>;
-    else return <Icon left>save</Icon>;
+    if (value) return <Icon >mode_edit</Icon>;
+    else return <Icon >save</Icon>;
   };
   /**
    *
    */
   return (
     <motion.form
-      className="m-login-form"
+      className="m-create-link-form"
       //onSubmit={handleSubmit}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -289,18 +289,20 @@ const ConnectedCreateLink = (props: any) => {
           node="button"
           style={{
             marginRight: "5px",
+            display:"flex"
           }}
           waves="light"
           onClick={(e) => handleCancel(e)}
         >
           Cancel
-          <Icon left>cancel</Icon>
+          <Icon>cancel</Icon>
         </Button>
         <Button
           className="btn"
           node="button"
           style={{
             marginRight: "5px",
+            display:"flex"
           }}
           waves="light"
           onClick={(e) => handleSubmit(e)}

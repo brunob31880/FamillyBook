@@ -1,9 +1,8 @@
-.img-container img {
-  width: 200px;
+.img-container-link img {
   height: auto; /*to preserve the aspect ratio of the image*/
   border-radius: 20px;
 }
-.img-container {
+.img-container-link {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,7 +14,7 @@
   box-shadow: 6px 6px 12px #888;
   border-radius: 20px;
 }
-.img-container:hover {
+.img-container-link:hover {
   outline: 5px solid red;
   outline-offset: -5px;
 }
