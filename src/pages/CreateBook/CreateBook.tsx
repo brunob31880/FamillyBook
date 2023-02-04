@@ -4,7 +4,7 @@ import { setUser } from "../../actions/user";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Button, Icon } from "react-materialize";
+import { Button, Icon, Checkbox } from "react-materialize";
 import { isConnected } from "../../utility/UserUtils";
 //import { AudioRecorder } from 'react-audio-voice-recorder';
 import { useHtml5QrCodeScanner } from 'react-html5-qrcode-reader';
@@ -20,6 +20,7 @@ const ConnectedCreateBook = (props: any) => {
   const { user, link, category, value, dimension } = props;
   const [saving, setSaving] = useState(false);
   const [data, setData] = useState("Not Found");
+  const [check, setCheck] = useState(false);
   let { id } = useParams();
   const { Html5QrcodeScanner } = useHtml5QrCodeScanner(
     'https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js'
@@ -28,6 +29,8 @@ const ConnectedCreateBook = (props: any) => {
   const [state, setState] = useState({
     isbn: "",
     result: null,
+    result2: null,
+    cover: null
   });
 
   useEffect(() => {
@@ -53,19 +56,23 @@ const ConnectedCreateBook = (props: any) => {
   useEffect(() => {
     //"0735619670"
     if (!state.isbn) return;
-    if (state.isbn.length < 10) return;
-    Parse.Cloud.run("fetch_isbn", { isbn_number: state.isbn }).then(function (
-      result
-    ) {
-      console.log("resultat ", result);
-      // const {imageLinks}=result;
-      // const {thumbnail}=imageLinks;
-      // console.log("thumbnail ", thumbnail);
+    if ((state.isbn.length !== 10) && (state.isbn.length !== 13)) return;
+    console.log("L=" + state.isbn.length)
+    const questions = async () => {
+      let result, result2, cover;
+      result = await Parse.Cloud.run("fetch_isbn2", { isbn_number: state.isbn })
+      result2 = await Parse.Cloud.run("fetch_isbn3", { isbn_number: state.isbn })
+      cover = await Parse.Cloud.run("fetch_cover", { isbn_number: state.isbn })
+      console.log("Result2 ", result2)
+      console.log("Cover ", cover)
       setState({
         ...state,
+        result2: result2,
         result: result,
+        cover: cover
       });
-    });
+    }
+    questions();
   }, [state.isbn]);
   /**
    * 
@@ -81,6 +88,15 @@ const ConnectedCreateBook = (props: any) => {
    *
    */
   const onDone = () => {
+    let thumb = state.result["ISBN:" + state.isbn]
+    if (thumb.details.subject) props.onCreateBookCategory(thumb.details.subjects, onDoneFinish);
+    else onDoneFinish();
+  };
+
+  /**
+ *
+ */
+  const onDoneFinish = () => {
     setSaving(false);
     if (user && user.username) {
       navigation("/ProtoBook/books");
@@ -101,13 +117,13 @@ const ConnectedCreateBook = (props: any) => {
     event.preventDefault();
     let target = event.target as HTMLInputElement;
     setSaving(true);
-    const { imageLinks, title, authors, pageCount } = state.result;
-    const { thumbnail } = imageLinks;
-    if (value && value.objectId !== "")
-      props.onModBook(value.objectId, state.isbn, title, authors, pageCount, thumbnail, onDone);
-    else {
 
-      props.onCreateBook(state.isbn, title, authors, pageCount, thumbnail, onDone);
+    let thumb = state.result["ISBN:" + state.isbn]
+    let maybe_url = 'https://covers.openlibrary.org/b/isbn/' + state.isbn + '-M.jpg'
+    if (value && value.objectId !== "")
+      props.onModBook(value.objectId, state.isbn, thumb.details.title, thumb.details.authors, thumb.details.number_of_pages, maybe_url, thumb.details.subjects, onDone);
+    else {
+      props.onCreateBook(state.isbn, thumb.details.title, thumb.details.authors, thumb.details.number_of_pages, maybe_url, thumb.details.subjects, onDone);
     }
   };
 
@@ -117,13 +133,17 @@ const ConnectedCreateBook = (props: any) => {
    * @returns
    */
   const getVignette = () => {
+    console.log("Result ", state.result)
     if (state && state.result) {
+
+      let thumb = state.result["ISBN:" + state.isbn]
+      let maybe_url = 'https://covers.openlibrary.org/b/isbn/' + state.isbn + '-M.jpg'
       return (
         <div className="vignette-view">
-          {state.result.imageLinks && state.result.imageLinks.thumbnail && (
+          {thumb && thumb.thumbnail_url && (
             <img
-              style={{ width: "100%", height: "100px" }}
-              src={state.result.imageLinks.thumbnail}
+              style={{ width: "50%", height: "50%" }}
+              src={maybe_url}
             />
           )}
         </div>
@@ -160,18 +180,24 @@ const ConnectedCreateBook = (props: any) => {
       html5QrcodeScanner.render(
         (data: any) => {
           console.log('success ->', data)
-          setState({...state,isbn:data});
+          setState({ ...state, isbn: data });
         },
         (err: any) => console.log('err ->', err)
       );
     }
   }, [Html5QrcodeScanner]);
+
+  useEffect(() => {
+    //console.log("Ici " + check)
+    if (!check) document.getElementById("reader").setAttribute("hidden", "true");
+    else document.getElementById("reader").removeAttribute("hidden")
+  }, [check])
   /**
    *
    */
   return (
     <motion.form
-      className="m-login-form"
+      className="m-book-form"
       //onSubmit={handleSubmit}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -179,6 +205,12 @@ const ConnectedCreateBook = (props: any) => {
       <div className="link_title">
         <h3>Book</h3>
       </div>
+      <Checkbox
+        id="Checkbox_1"
+        label="Scanner"
+        value="Scanner"
+        onChange={(e) => setCheck(!check)}
+      />
       <div id='reader'></div>
       <div className="input-field ">
         <i className="material-icons prefix">bookshelf</i>
@@ -192,7 +224,7 @@ const ConnectedCreateBook = (props: any) => {
         <label htmlFor="ISBN">ISBN</label>
       </div>
 
-      {getVignette()}
+      {!check && getVignette()}
 
       <div className="link_controls" style={{ marginTop: "10px" }}>
         <Button
@@ -200,7 +232,7 @@ const ConnectedCreateBook = (props: any) => {
           node="button"
           style={{
             marginRight: "5px",
-            display:"flex"
+            display: "flex"
           }}
           waves="light"
           onClick={(e) => handleCancel(e)}
@@ -214,7 +246,7 @@ const ConnectedCreateBook = (props: any) => {
           node="button"
           style={{
             marginRight: "5px",
-            display:"flex"
+            display: "flex"
           }}
           waves="light"
           onClick={(e) => handleSubmit(e)}

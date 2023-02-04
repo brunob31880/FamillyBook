@@ -7,12 +7,12 @@ import { setCategoryList } from "../../actions/category";
 import { connect } from "react-redux";
 import { ParseClasse, Logout } from "../../utility/ParseUtils";
 import Header from "../../components/Header/Header";
-import {  Button,Icon } from "react-materialize";
+import { Button, Icon } from "react-materialize";
 import { truncateString } from "../../utility/StringUtils";
-import {isMobileDevice} from "../../utility/DeviceUtils"
+import { isMobileDevice } from "../../utility/DeviceUtils"
 import { LinkList } from "../LinkList/LinkList";
 import { isConnected } from "../../utility/UserUtils";
-import { getName, getIcon,convertCamelCaseStringToHyphenatedString } from "../../utility/CategoryListUtils";
+import { getName, getIcon, convertCamelCaseStringToHyphenatedString } from "../../utility/CategoryListUtils";
 import "./links.css";
 
 /**
@@ -20,7 +20,7 @@ import "./links.css";
  * @returns
  */
 const ConnectedLinks = (props: any) => {
-  const { category, user, link,dimension } = props;
+  const { category, user, link, dimension } = props;
   let initialPopup: HTMLDivElement = null;
   let initialEdit: Element = null;
   let initialDel: Element = null;
@@ -38,14 +38,17 @@ const ConnectedLinks = (props: any) => {
   let navigation = useNavigate();
 
   useEffect(() => {
+    reLoad()
+  }, []);
+
+  const reLoad = () => {
     ParseClasse("Links", (rep: any) => {
       props.setLinkList(JSON.parse(JSON.stringify(rep)));
     });
     ParseClasse("Category", (rep: any) => {
       props.setCategoryList(JSON.parse(JSON.stringify(rep)));
     });
-  }, []);
-
+  }
   //create a useEffect hook looking at user and use isConnected function to check if the user is connected
   //if not, redirect to the login page
   useEffect(() => {
@@ -82,19 +85,19 @@ const ConnectedLinks = (props: any) => {
     let obj = category.filter((object: any) => object.name === "Links")[0];
     let catLinks: any = obj ? obj.list : [];
 
-   // console.log("CatLinks=" + JSON.stringify(catLinks));
+    // console.log("CatLinks=" + JSON.stringify(catLinks));
     catLinks.forEach((object) => {
       tmp.push(
         <Button
           key={getName(object) as string}
           waves="light"
-          style={{display: 'flex', alignItems: 'center',justifyContent: 'space-between'}}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
           className="btn"
           onClick={() => navigation("/ProtoBook/links/" + getName(object))}
         >
           {" "}
-          {getIcon(object) &&  <i style={{marginRight:"5px",lineHeight:"27px",height:"27px"}} className={"fas "+convertCamelCaseStringToHyphenatedString(getIcon(object))}/>}
-          {!isMobileDevice(dimension) &&  truncateString(getName(object),8) }     
+          {getIcon(object) && <i style={{ marginRight: "5px", lineHeight: "27px", height: "27px" }} className={"fas " + convertCamelCaseStringToHyphenatedString(getIcon(object))} />}
+          {!isMobileDevice(dimension) && truncateString(getName(object), 8)}
         </Button>
       );
     });
@@ -115,17 +118,18 @@ const ConnectedLinks = (props: any) => {
     let { category } = useParams();
 
     return (
-        isConnected(user) && <LinkList
+      isConnected(user) && <LinkList
         links={link}
         uid={user.objectId}
         category={category}
         contextMenuListener={contextMenuListener}
       />
-      );
+    );
   };
   //
   const onDoneDelete = () => {
-    navigation("/ProtoBook/" + refPopup.current.type);
+    // navigation("/ProtoBook/" + refPopup.current.type);
+    reLoad();
   };
   //onEdit
   const onEdit = (e: MouseEvent) => {
@@ -134,9 +138,9 @@ const ConnectedLinks = (props: any) => {
     );
     navigation(
       "/ProtoBook/create_" +
-        refPopup.current.type +
-        "/edit/" +
-        refPopup.current.action
+      refPopup.current.type +
+      "/edit/" +
+      refPopup.current.action
     );
   };
   //onDel
@@ -169,7 +173,7 @@ const ConnectedLinks = (props: any) => {
     refPopup.current.del = del;
 
     menuPopup.style.display = "none";
-
+    edit.removeAttribute("disabled");
     edit.addEventListener("click", (e: MouseEvent) => onEdit(e));
     del.addEventListener("click", (e: MouseEvent) => onDel(e));
     document.addEventListener("click", () => {

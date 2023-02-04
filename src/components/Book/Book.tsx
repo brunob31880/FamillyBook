@@ -3,6 +3,7 @@ import { Button } from "react-materialize";
 import { connect } from "react-redux";
 import {isMobileDevice} from "../../utility/DeviceUtils"
 import { setUser } from "../../actions/user";
+import './book.css'
 /**
  * 
  * @param param0 

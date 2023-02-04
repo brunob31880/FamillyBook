@@ -40,14 +40,17 @@ const ConnectedRichTexts = (props: any) => {
   let navigation = useNavigate();
 
   useEffect(() => {
+    reLoad();
+  }, []);
+
+  const reLoad = () => {
     ParseClasse("RichText", (rep: any) => {
       props.setRichTextList(JSON.parse(JSON.stringify(rep)));
     });
     ParseClasse("Category", (rep: any) => {
       props.setCategoryList(JSON.parse(JSON.stringify(rep)));
     });
-  }, []);
-
+  }
   //create a useEffect hook looking at user and use isConnected function to check if the user is connected
   //if not, redirect to the login page
   useEffect(() => {
@@ -88,13 +91,13 @@ const ConnectedRichTexts = (props: any) => {
         <Button
           key={getName(object) as string}
           waves="light"
-          style={{display: 'flex', alignItems: 'center',justifyContent: 'space-between'}}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
           className="btn"
           onClick={() => navigation("/ProtoBook/richtext/" + getName(object))}
         >
           {" "}
-          {getIcon(object) &&  <i style={{marginRight:"5px",lineHeight:"27px",height:"27px"}} className={"fas "+convertCamelCaseStringToHyphenatedString(getIcon(object))}/>}
-          {truncateString(getName(object),8)}{" "}     
+          {getIcon(object) && <i style={{ marginRight: "5px", lineHeight: "27px", height: "27px" }} className={"fas " + convertCamelCaseStringToHyphenatedString(getIcon(object))} />}
+          {truncateString(getName(object), 8)}{" "}
         </Button>
       );
     });
@@ -125,7 +128,8 @@ const ConnectedRichTexts = (props: any) => {
   };
   //
   const onDoneDelete = () => {
-    navigation("/ProtoBook/" + refPopup.current.type);
+    //navigation("/ProtoBook/" + refPopup.current.type);
+    reLoad();
   };
   //onEdit
   const onEdit = (e: MouseEvent) => {
@@ -134,9 +138,9 @@ const ConnectedRichTexts = (props: any) => {
     );
     navigation(
       "/ProtoBook/create_" +
-        refPopup.current.type +
-        "/edit/" +
-        refPopup.current.action
+      refPopup.current.type +
+      "/edit/" +
+      refPopup.current.action
     );
   };
   //onDel
@@ -169,7 +173,7 @@ const ConnectedRichTexts = (props: any) => {
     refPopup.current.del = del;
 
     menuPopup.style.display = "none";
-
+    edit.removeAttribute("disabled") 
     edit.addEventListener("click", (e: MouseEvent) => onEdit(e));
     del.addEventListener("click", (e: MouseEvent) => onDel(e));
     document.addEventListener("click", () => {

@@ -13,7 +13,7 @@ export const BookList = ({
     return (
         <>
             {books
-                //.filter((object: any) => object.userId === uid)
+                .filter((object: any) => object.userId === uid)
                 // .filter((object: any) => {
                 //     if (category) return object.category === category;
                 //     else return true;
@@ -23,7 +23,7 @@ export const BookList = ({
                         key={object.objectId}
                         object={object}
                         handleContextMenu={(e: MouseEvent) =>
-                            contextMenuListener(e, "book", object.objectId)
+                            contextMenuListener(e, "books", object.objectId)
                         }
                     />
                 ))}

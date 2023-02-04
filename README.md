@@ -134,4 +134,7 @@
 - https://github.com/candraKriswinarto/youtube2mp3
 - https://rapidapi.com/ytjar/api/youtube-mp36
 - https://docs.rapidapi.com/docs/developer-dashboard
--https://blog.minhazav.dev/QR-and-barcode-scanner-using-html-and-javascript/
+- https://blog.minhazav.dev/QR-and-barcode-scanner-using-html-and-javascript/
+- https://medium.com/@chanyamhung/apis-books-data-via-isbn-d29285572683
+- https://www.vinzius.com/post/free-and-paid-api-isbn/
+- http://classify.oclc.org/classify2/Classify?isbn=978-2-373-00054-2&summary=false

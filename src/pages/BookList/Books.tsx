@@ -29,23 +29,27 @@ export const ConnectedBooks = ({
   //create a useEffect hook on mount that load the books by using ParseClasse function with parameter "Book"
   //and set the books in the redux store with the function setBooks
   useEffect(() => {
+    reLoad();
+    /*
+        Parse.Cloud.run("fetch_isbn3", { isbn_number: "9782810011377" }).then(
+          function (result) {
+            console.log("resultat ", result);
+            // const {imageLinks}=result;
+            // const {thumbnail}=imageLinks;
+            //console.log("thumbnail ", thumbnail);
+          }
+        );
+     */
+  }, []);
+
+  const reLoad = () => {
     ParseClasse("Books", (books: any) => {
       setBookList(JSON.parse(JSON.stringify(books)));
     });
     ParseClasse("Category", (rep: any) => {
       setCategoryList(JSON.parse(JSON.stringify(rep)));
     });
-
-    Parse.Cloud.run("fetch_isbn", { isbn_number: "0735619670" }).then(
-      function (result) {
-        console.log("resultat ", result);
-        // const {imageLinks}=result;
-        // const {thumbnail}=imageLinks;
-        //console.log("thumbnail ", thumbnail);
-      }
-    );
-  }, []);
-
+  }
   let navigation = useNavigate();
   //create a useEffect hook looking at user and use isConnected function to check if the user is connected
   //if not, redirect to the login page
@@ -111,16 +115,7 @@ export const ConnectedBooks = ({
         </Button>
       );
     });
-    tmp.push(
-      <a className="btn-floating btn-large waves-effect waves-light lightgreen">
-        <i
-          className="material-icons"
-          onClick={() => navigation("/ProtoBook/create_links_category")}
-        >
-          add
-        </i>
-      </a>
-    );
+
     return tmp;
   };
   //
@@ -141,7 +136,8 @@ export const ConnectedBooks = ({
   };
   //
   const onDoneDelete = () => {
-    navigation("/ProtoBook/" + refPopup.current.type);
+    // navigation("/ProtoBook/" + refPopup.current.type);
+    reLoad();
   };
   //onEdit
   const onEdit = (e: MouseEvent) => {
@@ -181,7 +177,7 @@ export const ConnectedBooks = ({
     refPopup.current.del = del;
 
     menuPopup.style.display = "none";
-
+    edit.setAttribute("disabled", "true");
     edit.addEventListener("click", (e: MouseEvent) => onEdit(e));
     del.addEventListener("click", (e: MouseEvent) => onDel(e));
     document.addEventListener("click", () => {
@@ -210,7 +206,7 @@ export const ConnectedBooks = ({
           className="btn edit"
         >
           Editer
-          <Icon left>border_color</Icon>
+          <Icon >border_color</Icon>
         </Button>
         <Button
           waves="light"
@@ -220,7 +216,7 @@ export const ConnectedBooks = ({
           className="btn delete"
         >
           Supprimer
-          <Icon left>delete</Icon>
+          <Icon >delete</Icon>
         </Button>
       </div>
     </motion.div>

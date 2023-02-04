@@ -210,6 +210,31 @@ const ConnectedApp = (props: any) => {
     );
   };
   /**
+   * 
+   * @param subject 
+   * @param onDone 
+   */
+  const handlerCreateBookCategory = (subjects: string, onDone) => {
+    let obj = category.filter((object: any) => object.name === "Books")[0];
+    let cpObj = JSON.parse(JSON.stringify(obj));
+    let tmp = [].concat(obj.list);
+    let object = {
+      name: subjects.split("--")[0],
+      icon: "FaBooks",
+    };
+    tmp.push(object);
+    cpObj.list = tmp;
+
+    ModifyElementInClasseWithId(
+      "Category",
+      obj.objectId,
+      cpObj,
+      (c: any) => onDone(c),
+      (e: String) => console.log("error  " + e),
+      (e: String) => console.log("error " + e)
+    );
+  }
+  /**
    *
    * @param name
    * @param onDone
@@ -290,7 +315,7 @@ const ConnectedApp = (props: any) => {
     titre: string,
     categorySelected: string,
     content: any,
-   // b64,
+    // b64,
     onDone: any
   ) => {
     console.log("Selected category ", categorySelected);
@@ -314,7 +339,7 @@ const ConnectedApp = (props: any) => {
         name: titre,
         category: categorySelected,
         content: content,
-       // vignette: parsefile,
+        // vignette: parsefile,
         userId: user.objectId,
       },
       (c: any) => onDone(c),
@@ -331,7 +356,7 @@ const ConnectedApp = (props: any) => {
    * @param type
    * @param id
    */
-  const handleDeleteType = (type: String, id: String) => {
+  const handleDeleteType = (type: String, id: String,onDoneDelete) => {
     let nClass = "";
     switch (type) {
       case "link":
@@ -340,15 +365,19 @@ const ConnectedApp = (props: any) => {
       case "richtext":
         nClass = "RichText";
         break;
+      case "books":
+        nClass = "Books";
+        break;
       default:
         nClass = "Links";
     }
-
+    console.log("Delete "+id+" classe "+nClass)
     deleteElementInClassWithId(
       nClass,
       id,
       (e: any) => {
         console.log("Delete " + id);
+        onDoneDelete();
       },
       (e: any) => console.log("error " + e)
     );
@@ -370,12 +399,23 @@ const ConnectedApp = (props: any) => {
       (err: any) => console.log(err)
     );
   }
+  /**
+   * 
+   * @param isbn 
+   * @param title 
+   * @param authors 
+   * @param pageCount 
+   * @param thumbnail 
+   * @param subjects 
+   * @param onDone 
+   */
   const handlerCreateBook = (
     isbn: string,
     title: string,
     authors: Array<string>,
     pageCount: string,
     thumbnail: string,
+    subjects: Array<string>,
     onDone: any
   ) => {
     console.log("Create Book");
@@ -388,6 +428,7 @@ const ConnectedApp = (props: any) => {
         authors: authors,
         pageCount: pageCount,
         thumbnail: thumbnail,
+        subjects: subjects,
         userId: user.objectId,
       },
       (c: any) => onDone(c),
@@ -407,7 +448,7 @@ const ConnectedApp = (props: any) => {
       <Route path="/ProtoBook/books/searchbook" element={<Books />} />
       <Route
         path="/ProtoBook/create_book"
-        element={<CreateBook onCreateBook={handlerCreateBook} />}
+        element={<CreateBook onCreateBook={handlerCreateBook} onCreateBookCategory={handlerCreateBookCategory} />}
       />
       <Route
         path="/ProtoBook/create_audio"
