@@ -22,7 +22,7 @@ import "./richtext.css";
  * @returns
  */
 const ConnectedRichTexts = (props: any) => {
-  const { category, user, richtext } = props;
+  const { category, user, richtext, dimension } = props;
   let initialPopup: HTMLDivElement = null;
   let initialEdit: Element = null;
   let initialDel: Element = null;
@@ -76,8 +76,20 @@ const ConnectedRichTexts = (props: any) => {
    */
   const getNav = () => {
     if (useLocation().pathname === "/ProtoBook/home") return <></>;
-    else return <nav>{renderNavigation()}</nav>;
+    else return (
+      <div className="mynav">
+        <div className="insidenav">
+          {renderNavigation()}
+        </div>
+      </div>)
   };
+
+  useEffect(() => {
+    const mynav = document.querySelector(".mynav");
+    const mymain = document.querySelector(".mymain");
+    mynav.setAttribute("height", "" + (parseInt(dimension.height) - 60))
+    mymain.setAttribute("height", "" + (parseInt(dimension.height) - 60))
+  }, [dimension])
   /**
    *
    * @returns
@@ -173,7 +185,7 @@ const ConnectedRichTexts = (props: any) => {
     refPopup.current.del = del;
 
     menuPopup.style.display = "none";
-    edit.removeAttribute("disabled") 
+    edit.removeAttribute("disabled")
     edit.addEventListener("click", (e: MouseEvent) => onEdit(e));
     del.addEventListener("click", (e: MouseEvent) => onDel(e));
     document.addEventListener("click", () => {
@@ -191,16 +203,21 @@ const ConnectedRichTexts = (props: any) => {
    */
   return (
     <motion.div
-      id="grid-richtext"
+      id="richtext"
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      {getNav()}
+
       <header>
         <Header action={callbackAction} />
       </header>
-      <main>{renderListElements()}</main>
-      <footer></footer>
+      <div className="mycontainer">
+        {getNav()}
+        <div className="mymain">{renderListElements()}</div>
+      </div>
+
+
+
       <div className="menu-popup">
         <Button
           waves="light"
@@ -249,6 +266,7 @@ const mapStateToProps = (state: any) => {
     user: state.user.user,
     category: state.category.category,
     richtext: state.richtext.richtext,
+    dimension: state.dimension.dimension,
   };
 };
 

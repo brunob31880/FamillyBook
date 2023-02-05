@@ -76,6 +76,12 @@ const ConnectedHome = (props: any) => {
       </Carousel.Item>
     ));
   };
+  useEffect(()=>{
+    console.log("ICI "+(parseInt(dimension.height)-60)+"px")
+    const myarticle = document.querySelector(".myarticle");
+   
+    myarticle.setAttribute("style","height:"+(parseInt(dimension.height)-60)+"px")
+  },[dimension])
 
   /**
    *
@@ -86,7 +92,7 @@ const ConnectedHome = (props: any) => {
         <Header action={callbackAction} />
       </header>
       <div className="center">
-        <article>
+        <div className="myarticle">
           <h1>Links: {link.length}</h1>
           {!isMobileDevice(dimension) && 
           <Carousel
@@ -97,7 +103,7 @@ const ConnectedHome = (props: any) => {
           >
             {renderListElements()}
           </Carousel> }
-        </article>
+        </div>
       </div>
       <footer></footer>
     </motion.div>

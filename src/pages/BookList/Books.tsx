@@ -25,6 +25,7 @@ export const ConnectedBooks = ({
   setUser,
   onDeleteType,
   setCategoryList,
+  dimension
 }: any) => {
   //create a useEffect hook on mount that load the books by using ParseClasse function with parameter "Book"
   //and set the books in the redux store with the function setBooks
@@ -89,8 +90,13 @@ export const ConnectedBooks = ({
   /**
    *
    */
+
   const getNav = () => {
-    return <nav>{renderNavigation()}</nav>;
+    return <div className="mynav">
+      <div className="insidenav">
+        {renderNavigation()}
+      </div>
+    </div>;
   };
   /**
    *
@@ -185,18 +191,27 @@ export const ConnectedBooks = ({
     });
   }, []);
 
+  useEffect(() => {
+    const mynav = document.querySelector(".mynav");
+    const mymain = document.querySelector(".mymain");
+    mynav.setAttribute("style", "height:" + (parseInt(dimension.height) - 60) + "px")
+    mymain.setAttribute("style", "height:" + (parseInt(dimension.height) - 60) + "px")
+  }, [dimension])
+
   return (
     <motion.div
-      id="grid-books"
+      id="books"
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      {getNav()}
+
       <header>
         <Header action={callbackAction} />
       </header>
-      <main>{renderListElements()}</main>
-      <footer></footer>
+      <div className="mycontainer">
+        {getNav()}
+        <div className="mymain">{renderListElements()}</div>
+      </div>
       <div className="menu-popup">
         <Button
           waves="light"
@@ -229,6 +244,7 @@ const mapStateToProps = (state: any) => {
     category: state.category.category,
     user: state.user.user,
     book: state.book.book,
+    dimension: state.dimension.dimension,
   };
 };
 //create a function mapDispatchToProps wich return an object with functions setUser, setCategory and setBooks

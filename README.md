@@ -102,6 +102,10 @@
 
 - Scan ISBN en utilisation useHtml5QrCodeScanner
 
+## 5 fevrier 2023
+
+- Mise en page mise à jour 
+
 ## TODO
 
 - Page Lien personnalisée la page peut etre arrangée à sa façon

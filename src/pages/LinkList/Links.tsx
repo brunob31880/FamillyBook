@@ -74,7 +74,11 @@ const ConnectedLinks = (props: any) => {
    *
    */
   const getNav = () => {
-    return <nav>{renderNavigation()}</nav>;
+    return <div className="mynav">
+      <div className="insidenav">
+        {renderNavigation()}
+      </div>
+    </div>;
   };
   /**
    *
@@ -99,8 +103,8 @@ const ConnectedLinks = (props: any) => {
         >
           {" "}
           {getIcon(object) &&
-        
-           <IconPickerItem icon={getIcon(object)} color="#FFFFFF" size={16} />
+
+            <IconPickerItem icon={getIcon(object)} color="#FFFFFF" size={16} />
           }
           {!isMobileDevice(dimension) && truncateString(getName(object), 8)}
         </Button>
@@ -186,21 +190,30 @@ const ConnectedLinks = (props: any) => {
     });
   }, []);
 
+  useEffect(() => {
+    console.log("ICI " + (parseInt(dimension.height) - 60) + "px")
+    const mynav = document.querySelector(".mynav");
+    const mymain = document.querySelector(".mymain");
+    mynav.setAttribute("style", "height:" + (parseInt(dimension.height) - 60) + "px")
+    mymain.setAttribute("style", "height:" + (parseInt(dimension.height) - 60) + "px")
+  }, [dimension])
+
   /**
    *
    */
   return (
     <motion.div
-      id="grid-links"
+      id="links"
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      {getNav()}
-      <header>
+      <div className="myheader">
         <Header action={callbackAction} />
-      </header>
-      <main>{renderListElements()}</main>
-      <footer></footer>
+      </div>
+      <div className="mycontainer">
+        {getNav()}
+        <div className="mymain">{renderListElements()}</div>
+      </div>
       <div className="menu-popup">
         <Button
           waves="light"

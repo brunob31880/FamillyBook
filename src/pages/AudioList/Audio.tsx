@@ -13,6 +13,7 @@ import { AudioList } from "./AudioList";
 import Header from "../../components/Header/Header";
 
 export const ConnectedAudios = ({
+    dimension,
     category,
     user,
     audio,
@@ -71,8 +72,13 @@ export const ConnectedAudios = ({
     /**
      *
      */
+
     const getNav = () => {
-        return <nav>{renderNavigation()}</nav>;
+        return <div className="mynav">
+            <div className="insidenav">
+                {renderNavigation()}
+            </div>
+        </div>;
     };
     /**
      *
@@ -171,19 +177,28 @@ export const ConnectedAudios = ({
             menuPopup.style.display = "none";
         });
     }, []);
-
+    useEffect(() => {
+        console.log("ICI " + (parseInt(dimension.height) - 60) + "px")
+        const mynav = document.querySelector(".mynav");
+        const mymain = document.querySelector(".mymain");
+        mynav.setAttribute("style", "height:" + (parseInt(dimension.height) - 60) + "px")
+        mymain.setAttribute("style", "height:" + (parseInt(dimension.height) - 60) + "px")
+    }, [dimension])
     return (
         <motion.div
-            id="grid-audios"
+            id="audios"
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
         >
-            {getNav()}
+
             <header>
                 <Header action={callbackAction} />
             </header>
-            <main>{renderListElements()}</main>
-            <footer></footer>
+            <div className="mycontainer">
+                {getNav()}
+                <div className="mymain">{renderListElements()}</div>
+            </div>
+
             <div className="menu-popup">
                 <Button
                     waves="light"
@@ -216,6 +231,7 @@ const mapStateToProps = (state: any) => {
         category: state.category.category,
         user: state.user.user,
         audio: state.audio.audio,
+        dimension: state.dimension.dimension
     };
 };
 //create a function mapDispatchToProps wich return an object with functions setUser, setCategory and setVideoList
