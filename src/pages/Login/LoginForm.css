@@ -5,9 +5,9 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #fff;
-    padding: 30px 40px;
+    padding: 30px 30px;
     box-shadow: 4px 7px 1px 0px rgba(0, 0, 0, 0.2);
-    width: 25rem;
+    width: 23rem;
   }
   .m-login-form-proto span {
     color: red;

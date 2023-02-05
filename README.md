@@ -138,3 +138,4 @@
 - https://medium.com/@chanyamhung/apis-books-data-via-isbn-d29285572683
 - https://www.vinzius.com/post/free-and-paid-api-isbn/
 - http://classify.oclc.org/classify2/Classify?isbn=978-2-373-00054-2&summary=false
+- https://www.npmjs.com/package/book-cover-3d

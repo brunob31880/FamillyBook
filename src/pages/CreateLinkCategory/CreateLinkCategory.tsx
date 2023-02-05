@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { setUser } from "../../actions/user";
 import { connect } from "react-redux";
 import { motion } from "framer-motion";
-import { Button } from "react-materialize";
+import { Button,Icon } from "react-materialize";
 import "./CreateLinkCategory.css";
 /**
  *
@@ -57,6 +57,7 @@ const ConnectedCreateLinkCategory = (props: any) => {
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     let target = event.target as HTMLInputElement;
+    console.log("Icon ",state.icon)
     props.onCreateLinkCategory(state.name, state.icon,onDone);
   };
   /**
@@ -90,11 +91,13 @@ const ConnectedCreateLinkCategory = (props: any) => {
         style={{
           marginRight: "5px",
           marginTop: "5px",
+          display: "flex"
         }}
         waves="light"
         onClick={(e) => handleSubmit(e)}
       >
         Create
+        <Icon>save</Icon>
       </Button>
       <Button
         className="btn"
@@ -102,12 +105,13 @@ const ConnectedCreateLinkCategory = (props: any) => {
         style={{
           marginRight: "5px",
           marginTop: "5px",
+          display: "flex"
         }}
         waves="light"
         onClick={(e) => handleCancel(e)}
       >
        Cancel
-
+       <Icon>cancel</Icon>
         </Button>
       </div>
     </motion.form>

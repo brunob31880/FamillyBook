@@ -13,6 +13,7 @@ import { isMobileDevice } from "../../utility/DeviceUtils"
 import { LinkList } from "../LinkList/LinkList";
 import { isConnected } from "../../utility/UserUtils";
 import { getName, getIcon, convertCamelCaseStringToHyphenatedString } from "../../utility/CategoryListUtils";
+import { IconPickerItem } from 'react-fa-icon-picker'
 import "./links.css";
 
 /**
@@ -86,17 +87,21 @@ const ConnectedLinks = (props: any) => {
     let catLinks: any = obj ? obj.list : [];
 
     // console.log("CatLinks=" + JSON.stringify(catLinks));
+    //    {/* <i style={{ marginRight: "5px", lineHeight: "27px", height: "27px" }} className={"fas " + convertCamelCaseStringToHyphenatedString(getIcon(object))} /> */}
     catLinks.forEach((object) => {
       tmp.push(
         <Button
           key={getName(object) as string}
           waves="light"
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-arround', flexDirection: 'row' }}
           className="btn"
           onClick={() => navigation("/ProtoBook/links/" + getName(object))}
         >
           {" "}
-          {getIcon(object) && <i style={{ marginRight: "5px", lineHeight: "27px", height: "27px" }} className={"fas " + convertCamelCaseStringToHyphenatedString(getIcon(object))} />}
+          {getIcon(object) &&
+        
+           <IconPickerItem icon={getIcon(object)} color="#FFFFFF" size={16} />
+          }
           {!isMobileDevice(dimension) && truncateString(getName(object), 8)}
         </Button>
       );
