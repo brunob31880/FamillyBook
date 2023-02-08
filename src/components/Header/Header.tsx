@@ -4,53 +4,16 @@ import { setUser } from "../../actions/user";
 import { connect } from "react-redux";
 import { Button, Icon } from "react-materialize";
 import { isMobileDevice } from "../../utility/DeviceUtils"
-import "./Header.css";
+import {panelAudio,panelHome,panelBook,panelRichText,panelLink} from "../../datas/headerconfig.js"
+import './header.css'
 /**
  *
  * @returns
  */
 const ConnectedHeader = (props: any) => {
   const { user, action, dimension } = props;
-  const panelLink = {
-    "1": { link: "create", icon: "add", road: "create_link" },
-    "2": { link: "Docs", icon: "library_books", road: "richtext" },
-    "3": { link: "Home", icon: "home", road: "home" },
-    "4": { link: "Book", icon: "book", road: "books" },
-    "5": { link: "Audio", icon: "audiotrack", road: "audios" },
-    "6": { link: "leave", icon: "directions_run", road: "leave" },
-  };
-  const panelRichText = {
-    "1": { link: "create", icon: "add", road: "create_richtext" },
-    "2": { link: "links", icon: "insert_link", road: "links" },
-    "3": { link: "Home", icon: "home", road: "home" },
-    "4": { link: "Book", icon: "book", road: "books" },
-    "5": { link: "Audio", icon: "audiotrack", road: "audios" },
-    "6": { link: "leave", icon: "directions_run", road: "leave" },
-  };
-  const panelHome = {
-    "1": { link: "links", icon: "insert_link", road: "links" },
-    "2": { link: "Docs", icon: "text_fields", road: "richtext" },
-    "3": { link: "Book", icon: "book", road: "books" },
-    "4": { link: "Audio", icon: "audiotrack", road: "audios" },
-    "5": { link: "leave", icon: "directions_run", road: "leave" },
-  };
-  const panelBook = {
-    "1": { link: "create", icon: "add", road: "create_book" },
-    "2": { link: "links", icon: "insert_link", road: "links" },
-    "3": { link: "Docs", icon: "text_fields", road: "richtext" },
-    "4": { link: "Home", icon: "home", road: "home" },
-    "5": { link: "Audio", icon: "audiotrack", road: "audios" },
-    "6": { link: "leave", icon: "directions_run", road: "leave" },
-  };
+  
 
-  const panelAudio = {
-    "1": { link: "create", icon: "add", road: "create_audio" },
-    "2": { link: "links", icon: "insert_link", road: "links" },
-    "3": { link: "Docs", icon: "text_fields", road: "richtext" },
-    "4": { link: "Home", icon: "home", road: "home" },
-    "5": { link: "Book", icon: "library_books", road: "books" },
-    "6": { link: "leave", icon: "directions_run", road: "leave" },
-  };
   const isRoot = () => user && user.privilege === "root";
 
   const btnStyle = () => (!isMobileDevice(dimension)) ? "btn" : "btn-small"
@@ -66,15 +29,15 @@ const ConnectedHeader = (props: any) => {
        "Get Buttons for page " + JSON.stringify(useLocation().pathname)
      ); */
     if (useLocation().pathname.includes("/ProtoBook/links"))
-      tab = { ...panelLink };
+      tab = { ...panelLink(dimension) };
     else if (useLocation().pathname.includes("/ProtoBook/richtext"))
-      tab = { ...panelRichText };
+      tab = { ...panelRichText(dimension) };
     else if (useLocation().pathname.includes("/ProtoBook/books"))
-      tab = { ...panelBook };
+      tab = { ...panelBook(dimension) };
     else if (useLocation().pathname === "/ProtoBook/home")
-      tab = { ...panelHome };
+      tab = { ...panelHome(dimension) };
     else if (useLocation().pathname.includes("/ProtoBook/audios"))
-      tab = { ...panelAudio };
+      tab = { ...panelAudio(dimension) };
     else
       console.log("can't find a configuration for " + useLocation().pathname);
     // console.log("Tab=" + JSON.stringify(tab));
@@ -84,7 +47,7 @@ const ConnectedHeader = (props: any) => {
         className={isRoot() ? "btn" : "btn disabled"}
         node="button"
         style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
         }}
 
         waves="light"

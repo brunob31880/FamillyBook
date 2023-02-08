@@ -93,7 +93,7 @@ const ConnectedHome = (props: any) => {
       </header>
       <div className="center">
         <div className="myarticle">
-          <h1>Links: {link.length}</h1>
+          <h1 style={{color:"white"}}>Links: {link.length}</h1>
           {!isMobileDevice(dimension) && 
           <Carousel
             cols={6}

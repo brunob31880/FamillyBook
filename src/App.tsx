@@ -91,7 +91,12 @@ const ConnectedApp = (props: any) => {
     const handleResize = () => {
       props.setDocumentDimension({ width: document.documentElement.clientWidth, height: document.documentElement.clientHeight });
     };
+    const handleTouchMove=(e)=>{
+      e.preventDefault();
+    }
     window.addEventListener("resize", handleResize);
+    window.addEventListener("touchmove", handleTouchMove);
+  
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
   }, []);

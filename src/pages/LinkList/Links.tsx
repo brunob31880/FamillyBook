@@ -97,7 +97,7 @@ const ConnectedLinks = (props: any) => {
         <Button
           key={getName(object) as string}
           waves="light"
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-arround', flexDirection: 'row' }}
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row' }}
           className="btn"
           onClick={() => navigation("/ProtoBook/links/" + getName(object))}
         >
