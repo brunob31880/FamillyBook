@@ -5,9 +5,11 @@ import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button, Icon, Checkbox } from "react-materialize";
+import { getName, getIcon } from "../../utility/CategoryListUtils";
 import { isConnected } from "../../utility/UserUtils";
 import "./createbook.css";
 import Parse from "parse/dist/parse.min.js"; //Import parse
+import { resetWarningCache } from "prop-types";
 /**
  *
  * @returns
@@ -19,17 +21,24 @@ const ConnectedCreateBook = (props: any) => {
 
   const [dataUri, setDataUri] = useState('');
   const [state, setState] = useState({
-    isbn: "",
+    isbn:"",
     result: null,
+    category:""
   });
 
   useEffect(() => {
-    console.log("Update value");
+    console.log("Update value with "+value);
     if (!value) return;
     setState({
       ...state,
-      isbn: value.name ? value.name : "",
+      isbn: value.isbn ? value.isbn : "",
+      result:{
+        cover:value.thumbnail
+      },
+      category: value.category ? value.category : "",
     });
+    let optionSelected = document.getElementById("opt_" + value.category);
+    if (optionSelected) optionSelected.setAttribute("selected", "selected");
   }, [value]);
   /**
    *
@@ -51,12 +60,13 @@ const ConnectedCreateBook = (props: any) => {
       //let result;
       //result = await Parse.Cloud.run("fetch_isbn2", { isbn_number: state.isbn })
       Parse.Cloud.run("fetch_chasse", { isbn_number: state.isbn }).then(res => {
-
+        console.log("Res=", res)
         var doc = (new DOMParser).parseFromString(res, "text/html");
         console.log(doc)
         let coverImage = doc.getElementById("coverImage") as HTMLImageElement;
         //  let title=doc.getElementById("describe-isbn-title").innerText;
         let title = doc.title.split("(")[0];
+
         let author = [];
         author.push(doc.title.split('de')[1]);
         let tmp = {
@@ -123,9 +133,9 @@ const ConnectedCreateBook = (props: any) => {
     if (JSON.stringify(state.result) !== '{}') {
 
       if (value && value.objectId !== "")
-        props.onModBook(value.objectId, state.isbn, state.result.title, state.result.author, state.result.number_of_pages, state.result.cover, state.result.subjects, onDone);
+        props.onModBook(value.objectId, state.isbn, state.result.title, state.result.author, state.result.number_of_pages, state.result.cover,state.result.subjects, state.category, onDone);
       else {
-        props.onCreateBook(state.isbn, state.result.title, state.result.author, state.result.number_of_pages, state.result.cover, state.result.subjects, onDone);
+        props.onCreateBook(state.isbn, state.result.title, state.result.author, state.result.number_of_pages, state.result.cover, state.result.subjects, state.category, onDone);
       }
     }
 
@@ -161,7 +171,60 @@ const ConnectedCreateBook = (props: any) => {
     return <Icon>save</Icon>;
   };
 
-
+  /**
+   *
+   */
+  const getOptionsCategory = () => {
+    
+    let obj = category.filter((object: any) => object.name === "Books")[0];
+    let catLinks: any= obj ? obj.list : [];
+    let tmp = [];
+    catLinks.forEach((object) => {
+      let nameObject = getName(object);
+      tmp.push(
+        <option id={"opt_" + nameObject} key={nameObject}>
+          {nameObject}
+        </option>
+      );
+    });
+    return tmp;
+  };
+/**
+   *
+   * @param event
+   */
+const handleChangeCategorie = (event: SyntheticEvent) => {
+ 
+  let target = event.target as HTMLInputElement;
+  console.log("Change category to "+target.value)
+  setState({
+    ...state,
+    category: target.value,
+  });
+};
+/**
+   *
+   * @returns
+   */
+const getSelectCategory = () => {
+  return (
+    <select
+      id="select-category"
+      style={{
+        display: "block",
+        width: "100%",
+        height: "100%",
+        border: "1px solid #f2f2f2",
+      }}
+      onChange={handleChangeCategorie}
+    >
+      <option value="" disabled selected>
+        Choose your categorie
+      </option>
+      {getOptionsCategory()}
+    </select>
+  );
+};
   /**
    *
    */
@@ -190,7 +253,10 @@ const ConnectedCreateBook = (props: any) => {
       </div>
 
       {getVignette()}
-
+      <div>
+        <label>Categorie</label>
+        {getSelectCategory()}
+      </div>
       <div className="link_controls" style={{ marginTop: "10px" }}>
         <Button
           className="btn"

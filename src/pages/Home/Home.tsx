@@ -5,9 +5,10 @@ import { setUser } from "../../actions/user";
 import { setLinkList } from "../../actions/link";
 import { setCategoryList } from "../../actions/category";
 import { setRichTextList } from "../../actions/richtext";
+import { setBookList } from "../../actions/book";
 import { connect } from "react-redux";
 import { ParseClasse, Logout } from "../../utility/ParseUtils";
-import {isMobileDevice} from "../../utility/DeviceUtils";
+import { isMobileDevice } from "../../utility/DeviceUtils";
 import Header from "../../components/Header/Header";
 import Carousel from "react-grid-carousel";
 
@@ -17,7 +18,7 @@ import "./home.css";
  * @returns
  */
 const ConnectedHome = (props: any) => {
-  const { category, user, link, dimension} = props;
+  const { category, user, link, dimension, book } = props;
   let initialPopup: HTMLDivElement = null;
   let initialEdit: Element = null;
   let initialDel: Element = null;
@@ -41,9 +42,13 @@ const ConnectedHome = (props: any) => {
     ParseClasse("RichText", (rep: any) => {
       props.setRichTextList(JSON.parse(JSON.stringify(rep)));
     });
+    ParseClasse("Books", (rep: any) => {
+      props.setBookList(JSON.parse(JSON.stringify(rep)));
+    });
     ParseClasse("Category", (rep: any) => {
       props.setCategoryList(JSON.parse(JSON.stringify(rep)));
     });
+
   }, []);
 
   useEffect(() => {
@@ -67,21 +72,31 @@ const ConnectedHome = (props: any) => {
   };
 
   //
-  const renderListElements = () => {
+  const renderListLinkElements = () => {
     return link.map((object: any) => (
       <Carousel.Item>
         <div className="center">
-          <img width="100%" height="70px" src={object.vignette.url} />
+          <img width="100%" height="100px" src={object.vignette.url} />
         </div>
       </Carousel.Item>
     ));
   };
-  useEffect(()=>{
-    console.log("ICI "+(parseInt(dimension.height)-60)+"px")
+  const renderListBookElements = () => {
+    return book.map((object: any) => (
+      <Carousel.Item>
+        <div className="center">
+          <img width="100%" height="140px" src={object.thumbnail} />
+        </div>
+      </Carousel.Item>
+    ));
+  };
+
+
+  useEffect(() => {
+  //  console.log("ICI " + (parseInt(dimension.height) - 60) + "px")
     const myarticle = document.querySelector(".myarticle");
-   
-    myarticle.setAttribute("style","height:"+(parseInt(dimension.height)-60)+"px")
-  },[dimension])
+    myarticle.setAttribute("style", "height:" + (parseInt(dimension.height) - 60) + "px")
+  }, [dimension])
 
   /**
    *
@@ -93,16 +108,31 @@ const ConnectedHome = (props: any) => {
       </header>
       <div className="center">
         <div className="myarticle">
-          <h1 style={{color:"white"}}>Links: {link.length}</h1>
-          {!isMobileDevice(dimension) && 
-          <Carousel
-            cols={6}
-            rows={1}
-            gap={1}
-            containerStyle={{ background: "transparent" }}
-          >
-            {renderListElements()}
-          </Carousel> }
+          <h1 style={{ color: "white" }}>Links: {link.length}</h1>
+          {!isMobileDevice(dimension) &&
+            <Carousel
+              cols={6}
+              rows={1}
+              gap={1}
+              containerStyle={{ background: "transparent" }}
+            >
+
+              {renderListLinkElements()}
+            </Carousel>
+          }
+          <h1 style={{ color: "white" }}>Books: {book.length}</h1>
+          {!isMobileDevice(dimension) &&
+            <Carousel
+              cols={6}
+              rows={1}
+              gap={1}
+              containerStyle={{ background: "transparent" }}
+            >
+
+              {renderListBookElements()}
+            </Carousel>
+          }
+          {<p style={{ color: "white" }}> {dimension.height} </p>}
         </div>
       </div>
       <footer></footer>
@@ -121,6 +151,7 @@ const mapDispatchToProps = (dispatch: any) => {
     setLinkList: (list: any) => dispatch(setLinkList(list)),
     setRichTextList: (list: any) => dispatch(setRichTextList(list)),
     setCategoryList: (list: any) => dispatch(setCategoryList(list)),
+    setBookList: (books: any) => dispatch(setBookList(books)),
   };
 };
 /**
@@ -132,6 +163,7 @@ const mapStateToProps = (state: any) => {
   return {
     user: state.user.user,
     link: state.link.link,
+    book: state.book.book,
     category: state.category.category,
     richtext: state.richtext.richtext,
     dimension: state.dimension.dimension

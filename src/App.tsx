@@ -1,4 +1,5 @@
 import LoginForm from "./pages/Login/LoginForm";
+import CreateBookCategory from "./pages/CreateBookCategory/CreateBookCategory";
 import CreateBook from "./pages/CreateBook/CreateBook";
 import CreateAudio from "./pages/CreateAudio/CreateAudio";
 import CreateLink from "./pages/CreateLink/CreateLink";
@@ -20,6 +21,7 @@ import Parse from "parse/dist/parse.min.js";
 import { initialValue } from "./datas/richTextCst";
 import WrapperCreateRichText from "./pages/CreateRichText/WrapperCreateRichText";
 import WrapperCreateLink from "./pages/CreateLink/WrapperCreateLink";
+import WrapperCreateBook from "./pages/CreateBook/WrapperCreateBook";
 import { isConnected } from "./utility/UserUtils";
 import { b4config } from "./datas/b4appconfig";
 import { ParseClasse } from "./utility/ParseUtils";
@@ -91,12 +93,12 @@ const ConnectedApp = (props: any) => {
     const handleResize = () => {
       props.setDocumentDimension({ width: document.documentElement.clientWidth, height: document.documentElement.clientHeight });
     };
-    const handleTouchMove=(e)=>{
+    const handleTouchMove = (e) => {
       e.preventDefault();
     }
     window.addEventListener("resize", handleResize);
     window.addEventListener("touchmove", handleTouchMove);
-  
+
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -219,13 +221,13 @@ const ConnectedApp = (props: any) => {
    * @param subject 
    * @param onDone 
    */
-  const handlerCreateBookCategory = (subjects: string, onDone) => {
+  const handlerCreateBookCategory = (subjects: string, icon: any, onDone) => {
     let obj = category.filter((object: any) => object.name === "Books")[0];
     let cpObj = JSON.parse(JSON.stringify(obj));
     let tmp = [].concat(obj.list);
     let object = {
       name: subjects.split("--")[0],
-      icon: "FaBooks",
+      icon: icon,
     };
     tmp.push(object);
     cpObj.list = tmp;
@@ -307,6 +309,9 @@ const ConnectedApp = (props: any) => {
       (e: String) => console.log("error " + e)
     );
   };
+
+
+
   /**
    *
    * @param id
@@ -361,7 +366,7 @@ const ConnectedApp = (props: any) => {
    * @param type
    * @param id
    */
-  const handleDeleteType = (type: String, id: String,onDoneDelete) => {
+  const handleDeleteType = (type: String, id: String, onDoneDelete) => {
     let nClass = "";
     switch (type) {
       case "link":
@@ -376,7 +381,7 @@ const ConnectedApp = (props: any) => {
       default:
         nClass = "Links";
     }
-    console.log("Delete "+id+" classe "+nClass)
+    console.log("Delete " + id + " classe " + nClass)
     deleteElementInClassWithId(
       nClass,
       id,
@@ -421,6 +426,7 @@ const ConnectedApp = (props: any) => {
     pageCount: string,
     thumbnail: string,
     subjects: Array<string>,
+    category: string,
     onDone: any
   ) => {
     console.log("Create Book");
@@ -435,11 +441,58 @@ const ConnectedApp = (props: any) => {
         thumbnail: thumbnail,
         subjects: subjects,
         userId: user.objectId,
+        category: category
       },
       (c: any) => onDone(c),
       (err: any) => console.log(err)
     );
   };
+
+  /**
+   * 
+   * @param id 
+   * @param isbn 
+   * @param title 
+   * @param authors 
+   * @param pageCount 
+   * @param thumbnail 
+   * @param subjects 
+   * @param category 
+   * @param onDone 
+   */
+  const handlerModBook = (
+    id:string,
+    isbn: string,
+    title: string,
+    authors: Array<string>,
+    pageCount: string,
+    thumbnail: string,
+    subjects: Array<string>,
+    category: string,
+    onDone: any
+  ) => {
+   
+    let cpObj = {
+      title: title,
+      isbn: isbn,
+      authors: authors,
+      pageCount: pageCount,
+      thumbnail: thumbnail,
+      subjects: subjects,
+      userId: user.objectId,
+      category: category
+    };
+    console.log("Mod ",cpObj)
+    ModifyElementInClasseWithId(
+      "Books",
+      id,
+      cpObj,
+      (c: any) => onDone(c),
+      (e: String) => console.log("error  " + e),
+      (e: String) => console.log("error " + e)
+    );
+  };
+
   /**
    *
    */
@@ -450,10 +503,14 @@ const ConnectedApp = (props: any) => {
         path="/ProtoBook"
         element={<LoginForm onSubmit={handlerSubmit} />}
       />
-      <Route path="/ProtoBook/books/searchbook" element={<Books />} />
+      {/*  <Route path="/ProtoBook/books/searchbook" element={<Books />} /> */}
       <Route
         path="/ProtoBook/create_book"
-        element={<CreateBook onCreateBook={handlerCreateBook} onCreateBookCategory={handlerCreateBookCategory} />}
+        element={<CreateBook onCreateBook={handlerCreateBook} />}
+      />
+      <Route
+        path="/ProtoBook/create_books/edit/:id"
+        element={<WrapperCreateBook onModBook={handlerModBook} />}
       />
       <Route
         path="/ProtoBook/create_audio"
@@ -484,6 +541,10 @@ const ConnectedApp = (props: any) => {
         element={<Books onDeleteType={handleDeleteType} />}
       />
       <Route
+        path="/ProtoBook/books/:category"
+        element={<Books onDeleteType={handleDeleteType} />}
+      />
+      <Route
         path="/ProtoBook/audios"
         element={<Audios onDeleteType={handleDeleteType} />}
       />
@@ -507,6 +568,12 @@ const ConnectedApp = (props: any) => {
         path="/ProtoBook/create_links_category"
         element={
           <CreateLinkCategory onCreateLinkCategory={handlerLinkTextCategory} />
+        }
+      />
+      <Route
+        path="/ProtoBook/create_books_category"
+        element={
+          <CreateBookCategory onCreateBookCategory={handlerCreateBookCategory} />
         }
       />
       <Route

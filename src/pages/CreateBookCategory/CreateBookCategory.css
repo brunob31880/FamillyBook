@@ -1,0 +1,45 @@
+
+.m-book-category-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 30px 30px;
+    box-shadow: 4px 7px 1px 0px rgba(0, 0, 0, 0.2);
+    width: 400px;
+  }
+  .m-book-category-form span {
+    margin-top: 25px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  .m-book-category-form .show-error {
+    opacity: 1;
+    margin-top: 10px;
+  }
+  .m-book-category-form h3 {
+    font-weight: 800;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    color: #494949;
+  }
+  .m-book-category-form input[type=text], .m-book-category-form input[type=password] {
+    display: block;
+    border: none;
+    border-bottom: 2px solid rgba(173, 173, 173, 0.4);
+    padding: 5px 0;
+    color: #494949;
+    width: 100%;
+  }
+  .m-book-category-form input[type=submit] {
+    border: none;
+    background-color: #58dd77;
+    color: #fff;
+    padding: 10px 20px;
+    margin-top: 25px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }

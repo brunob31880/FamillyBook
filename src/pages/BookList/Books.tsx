@@ -4,16 +4,19 @@ import { setBookList } from "../../actions/book";
 import { ParseClasse, Logout } from "../../utility/ParseUtils";
 import { setCategoryList } from "../../actions/category";
 import { isConnected } from "../../utility/UserUtils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useParams} from "react-router-dom";
 import { setUser } from "../../actions/user";
 import { motion } from "framer-motion";
+import { truncateString } from "../../utility/StringUtils";
+import { isMobileDevice } from "../../utility/DeviceUtils"
 import { Button, Icon } from "react-materialize";
 import { SearchBook } from "./SearchBook";
-import { useParams } from "react-router-dom";
 import Parse from "parse/dist/parse.min.js"; //Import parse
 import { useLocation } from "react-router-dom";
 import { BookList } from "./BookList";
 import Header from "../../components/Header/Header";
+import { IconPickerItem } from "react-fa-icon-picker";
+import { getName, getIcon } from "../../utility/CategoryListUtils";
 import './books.css'
 // create a stateless component ConnectedBooks with props category user and books
 // which return only a div
@@ -25,22 +28,12 @@ export const ConnectedBooks = ({
   setUser,
   onDeleteType,
   setCategoryList,
-  dimension
+  dimension,
 }: any) => {
   //create a useEffect hook on mount that load the books by using ParseClasse function with parameter "Book"
   //and set the books in the redux store with the function setBooks
   useEffect(() => {
     reLoad();
-    /*
-        Parse.Cloud.run("fetch_isbn3", { isbn_number: "9782810011377" }).then(
-          function (result) {
-            console.log("resultat ", result);
-            // const {imageLinks}=result;
-            // const {thumbnail}=imageLinks;
-            //console.log("thumbnail ", thumbnail);
-          }
-        );
-     */
   }, []);
 
   const reLoad = () => {
@@ -74,7 +67,7 @@ export const ConnectedBooks = ({
   };
   /* reference vers le menu popup normalement actualisée au montage*/
   let refPopup = useRef(initValue);
-
+  let { id } = useParams();
   /**
    *
    * @param action
@@ -87,57 +80,76 @@ export const ConnectedBooks = ({
       navigation("/ProtoBook/" + action);
     }
   };
-  /**
+   /**
    *
    */
-
-  const getNav = () => {
+   const getNav = () => {
     return <div className="mynav">
       <div className="insidenav">
         {renderNavigation()}
       </div>
     </div>;
   };
-  /**
+   /**
    *
    * @returns
    */
-  const renderNavigation = () => {
+   const renderNavigation = () => {
     let tmp = [];
 
     let obj = category.filter((object: any) => object.name === "Books")[0];
-    let catLinks: Array<String> = obj ? obj.list : [];
-    console.log("CatLinks=" + JSON.stringify(catLinks));
-    catLinks.forEach((object) => {
+    let catBooks: any = obj ? obj.list : [];
+
+    console.log("catBooks=" + JSON.stringify(catBooks));
+    //    {/* <i style={{ marginRight: "5px", lineHeight: "27px", height: "27px" }} className={"fas " + convertCamelCaseStringToHyphenatedString(getIcon(object))} /> */}
+    
+    catBooks.forEach((object) => {
       tmp.push(
         <Button
-          key={object as string}
-          waves="light"
-          className="btn"
-          onClick={() => navigation("/ProtoBook/books/" + object)}
-        >
-          {" "}
-          {object}{" "}
-        </Button>
-      );
+        key={getName(object) as string}
+        waves="light"
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row' }}
+        className="btn"
+        onClick={() => navigation("/ProtoBook/books/" + getName(object))}
+      >
+       {" "}
+       {getIcon(object) &&
+          <IconPickerItem icon={getIcon(object)} color="#FFFFFF" size={16} />
+        }
+        {!isMobileDevice(dimension) && truncateString(getName(object), 8)}
+      </Button>
+        
+        )
     });
-
+    
+    tmp.push(
+      <a className="btn-floating btn-large waves-effect waves-light lightgreen">
+        <i
+          className="material-icons"
+          onClick={() => navigation("/ProtoBook/create_books_category")}
+        >
+          add
+        </i>
+      </a>
+    );
     return tmp;
   };
   //
   const renderListElements = () => {
+    let { category } = useParams();
+    console.log("Showing category="+category)
     //  console.log("loc=" + useLocation());
     // if location is SearchBook then return SearchBook
-    if (useLocation().pathname.includes("ProtoBook/books/searchbook"))
-      return <SearchBook />;
-    else
+   // if (useLocation().pathname.includes("ProtoBook/books/searchbook"))
+   //   return <SearchBook />;
+   // else
       return (
-        <BookList
+        isConnected(user) && <BookList
           books={book}
           uid={user.objectId}
           category={category}
           contextMenuListener={contextMenuListener}
-        />
+        /> 
       );
   };
   //
@@ -183,7 +195,8 @@ export const ConnectedBooks = ({
     refPopup.current.del = del;
 
     menuPopup.style.display = "none";
-    edit.setAttribute("disabled", "true");
+    edit.removeAttribute("disabled");
+  //  edit.setAttribute("disabled", "true");
     edit.addEventListener("click", (e: MouseEvent) => onEdit(e));
     del.addEventListener("click", (e: MouseEvent) => onDel(e));
     document.addEventListener("click", () => {

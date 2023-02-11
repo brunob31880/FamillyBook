@@ -14,10 +14,11 @@ export const BookList = ({
         <>
             {books
                 .filter((object: any) => object.userId === uid)
-                // .filter((object: any) => {
-                //     if (category) return object.category === category;
-                //     else return true;
-                // })
+                .filter((object: any) => {
+                    console.log("Cat="+category+" object="+object.category);
+                    if (category) return object.category === category;
+                    else return true;
+                  })
                 .map((object: any) => (
                     <Book
                         key={object.objectId}

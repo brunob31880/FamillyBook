@@ -10,7 +10,7 @@ import './book.css'
  * @returns 
  */
 export const ConnectedBook = ({ object, handleContextMenu,dimension }: any) => {
-  console.log("Object ", object.thumbnail)
+ // console.log("Object ", object.thumbnail)
 
   const mobileStyle={
     "width":"100px"

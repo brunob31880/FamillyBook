@@ -12,7 +12,7 @@ import { truncateString } from "../../utility/StringUtils";
 import { isMobileDevice } from "../../utility/DeviceUtils"
 import { LinkList } from "../LinkList/LinkList";
 import { isConnected } from "../../utility/UserUtils";
-import { getName, getIcon, convertCamelCaseStringToHyphenatedString } from "../../utility/CategoryListUtils";
+import { getName, getIcon } from "../../utility/CategoryListUtils";
 import { IconPickerItem } from 'react-fa-icon-picker'
 import "./links.css";
 
@@ -103,7 +103,6 @@ const ConnectedLinks = (props: any) => {
         >
           {" "}
           {getIcon(object) &&
-
             <IconPickerItem icon={getIcon(object)} color="#FFFFFF" size={16} />
           }
           {!isMobileDevice(dimension) && truncateString(getName(object), 8)}
