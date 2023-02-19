@@ -1,29 +1,31 @@
 import React from 'react'
-import { useSelected, useFocused } from "slate-react";
+import { useSelected, useFocused, useSlate } from "slate-react";
 import Icon from '../../common/Icon'
 import useResize from '../../../utility/customHooks/useResize';
+import { Transforms } from 'slate';
 
 
 const Image = ({ attributes, element, children }) => {
-  const {url,alt} = element;
+  const { url, alt, width, height } = element;
   const selected = useSelected();
   const focused = useFocused();
-  const [size,onMouseDown] = useResize();
-
+  const [size, onMouseDown] = useResize();
+  console.log("Width="+width+" height="+height)
 
   return (
     <div
       {...attributes}
       className='embed'
-      style={{display:'flex',boxShadow: selected && focused &&  '0 0 3px 3px lightgray'}}
+      style={{ display: 'flex', boxShadow: selected && focused && '0 0 3px 3px lightgray' }}
       {...element.attr}
     >
-      <div contentEditable={false} style={{width:`${size.width}px`,height:`${size.height}px`}} >
-        
-        <img alt={alt} src={url}/>
+      {/* <div contentEditable={false} style={{ width: `${size.width}px`, height: `${size.height}px` }} > */}
+
+      <div contentEditable={false} style={{ width: `${width}px`, height: `${height}px`  }} >
+        <img alt={alt} src={url} />
         {
-          selected && 
-          <button onMouseDown={onMouseDown} style={{width:'15px',height:'15px',opacity:1,background:'transparent'}}><Icon icon='resize'/></button>
+          selected &&
+          <button onMouseDown={onMouseDown} style={{ width: '15px', height: '15px', opacity: 1, background: 'transparent' }}><Icon icon='resize' /></button>
         }
       </div>
       {children}

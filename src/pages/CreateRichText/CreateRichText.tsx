@@ -45,7 +45,6 @@ const ConnectedCreateRichText = (props: any) => {
    * @param dataUrl
    */
   const modOrCreateRichText = (title) => {
-
     if (value && id)
       props.onModRichText(id, title, categorySelected.current, contentValue.current, onDone);
     else props.onCreateRichText(title, categorySelected.current, contentValue.current, onDone);

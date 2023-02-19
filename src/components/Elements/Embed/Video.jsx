@@ -6,9 +6,8 @@ import ReactPlayer from "react-player/youtube";
 // import "./Video.css";
 // {/* <ReactPlayer url={url}  style={{display:"inline-block"}} />*/}
 const Video = ({ attributes, element, children }) => {
-
-    const {url,alt} = element;
-    const [size,onMouseDown,resizing] = useResize();
+  const { url, alt, width, height } = element;
+    const [onMouseDown,resizing] = useResize();
     const selected = useSelected();
     const focused = useFocused();
   return (
@@ -18,7 +17,9 @@ const Video = ({ attributes, element, children }) => {
       style={{display:'flex',boxShadow: selected && focused &&  '0 0 3px 3px lightgray'}}
       {...element.attr}
     >
-      <div contentEditable={false} style={{width:`${size.width}px`,height:`${size.height}px`}}>
+   {/*   <div contentEditable={false} style={{width:`${size.width}px`,height:`${size.height}px`}}> */}
+
+      <div contentEditable={false} style={{ width: `${width}px`, height: `${height}px`  }} >
         {
           // The iframe reloads on each re-render and hence it stutters and the document doesn't detect mouse-up event leading to unwanted behaviour
           // So during resize replace the iframe with a simple div

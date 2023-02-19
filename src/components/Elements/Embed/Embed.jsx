@@ -14,7 +14,9 @@ const Embed = ({editor,format}) =>{
     const [showInput,setShowInput] = usePopup(urlInputRef);
     const [formData,setFormData] = useState({
         url:'',
-        alt:''
+        alt:'',
+        height:'200',
+        width:'200',
     })
     const [selection,setSelection] = useState();
     const handleButtonClick = (e)=>{
@@ -34,7 +36,9 @@ const Embed = ({editor,format}) =>{
         setShowInput(false);
         setFormData({
             url:'',
-            alt:''
+            alt:'',
+            height:'200',
+            width:'200',
         })
     }
     /**
@@ -66,8 +70,8 @@ const Embed = ({editor,format}) =>{
                     <form onSubmit={handleFormSubmit}>
                         <input type="text" placeholder='Enter url' value={formData.url} onChange={e=>setFormData(prev =>({...prev,url:e.target.value}))}/>
                         <input type="text" placeholder='Enter alt' value={formData.alt} onChange={e=>setFormData(prev =>({...prev,alt:e.target.value}))}/>
-                        
-
+                        <input type="text" placeholder='Enter height' value={formData.height} onChange={e=>setFormData(prev =>({...prev,height:e.target.value}))}/>
+                        <input type="text" placeholder='Enter width' value={formData.width} onChange={e=>setFormData(prev =>({...prev,width:e.target.value}))}/>
                         <Button type='submit'>Save</Button>
                     </form>
                 </div>

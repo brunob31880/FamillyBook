@@ -1,10 +1,14 @@
 import { Transforms} from 'slate';
 
 import {createParagraph} from './paragraph'
-export const createEmbedNode = (type,{url,alt}) =>({
+// embeded
+export const createEmbedNode = (type,{url,alt,height,width}) =>({
     type,
     alt,
     url,
+    height,
+    width,
+    
     children: [{text:""}]
 });
 

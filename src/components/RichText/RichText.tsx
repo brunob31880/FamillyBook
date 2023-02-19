@@ -28,7 +28,7 @@ const ConnectedRichText = (props: any) => {
     "width":"100px"
   }
   const desktopStyle={
-    "width":"200px"
+    "width":"150px"
   }
   /**
    *

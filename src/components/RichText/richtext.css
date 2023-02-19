@@ -11,10 +11,12 @@
   -moz-box-shadow: 6px 6px 12px #888;
   -webkit-box-shadow: 6px 6px 12px #888;
   box-shadow: 6px 6px 12px #888;
+  border-radius: 50%;
 }
 .img-container-richtext:hover {
   outline: 5px solid red;
   outline-offset: -5px;
+
 }
 
 .noaction {
@@ -35,4 +37,5 @@
 }
 .fit-picture {
   cursor: pointer;
+  border-radius: 50%;
 }
