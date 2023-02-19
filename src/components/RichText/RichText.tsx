@@ -1,7 +1,8 @@
 import React, { useState, useEffect, SyntheticEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "../../actions/user";
-import article from '../../assets/article.jpg';
+import postit from '../../assets/postit.jpeg';
+import article from '../../assets/published.png';
 import {isMobileDevice} from "../../utility/DeviceUtils"
 
 import { Button } from "react-materialize";
@@ -25,10 +26,10 @@ const ConnectedRichText = (props: any) => {
   }
 
   const mobileStyle={
-    "width":"100px"
+    "width":"70px"
   }
   const desktopStyle={
-    "width":"150px"
+    "width":"100px"
   }
   /**
    *
@@ -41,7 +42,7 @@ const ConnectedRichText = (props: any) => {
             <img
               className="fit-picture"
               style={isMobileDevice(dimension)?mobileStyle:desktopStyle}
-              src={article}
+              src={object.published?article:postit}
               onClick={()=>handleOnClick(object.objectId)}
             ></img>
           
